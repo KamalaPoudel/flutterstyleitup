@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "726572950035",
+    "firebase_url": "https://styleitup-4633c.firebaseio.com",
+    "project_id": "styleitup-4633c",
+    "storage_bucket": "styleitup-4633c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726572950035:android:c750d9cb5ab640f7c115e6",
+        "android_client_info": {
+          "package_name": "com.ugproject.style_it_up"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726572950035-10rv4qupavbbu3cl6k320a8os2kpmrfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9n-kAcJL2UTfDvwwM6vLRBMR6_wjCv6Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726572950035-10rv4qupavbbu3cl6k320a8os2kpmrfg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
