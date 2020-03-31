@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'comments.dart';
+
 class Details extends StatefulWidget {
+  String documentid;
+  String collectionName;
+  List comments;
+  Details({this.documentid, this.collectionName, this.comments});
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -12,19 +18,29 @@ class _DetailsState extends State<Details> {
     return Scaffold(
       appBar: AppBar(
         //centerTitle: true,
-        title: Text("Details"),
+        title: Text(widget.collectionName),
 
         actions: <Widget>[
           new IconButton(
             icon: actionIcon,
             onPressed: () {
-              Navigator.of(context).pushNamed('/commentPage');
+              print(widget.collectionName);
+              print(widget.documentid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CommentPage(
+                          collectionName: widget.collectionName,
+                          documentid: widget.documentid,
+                          comments: widget.comments,
+                        )),
+              );
             },
           ),
         ],
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(16.0),

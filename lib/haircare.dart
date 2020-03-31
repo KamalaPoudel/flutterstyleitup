@@ -1,22 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'details.dart';
+
 class HairCare extends StatefulWidget {
   @override
   _HairCareState createState() => _HairCareState();
 }
 
 class _HairCareState extends State<HairCare> {
-//   @override
-//   void initState() {
-// getOrgainzation();
-//     super.initState();
-//   }
-
-//   void getOrgainzation() async{
-//     Firestore.instance.collection("Organizationinfo").getDocuments();
-//   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +57,20 @@ class _HairCareState extends State<HairCare> {
                                         height: 50,
                                         child: RaisedButton(
                                           onPressed: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/details');
+                                            print(document.documentID);
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Details(
+                                                        documentid:
+                                                            document.documentID,
+                                                        collectionName:
+                                                            'Organizationinfo',
+                                                        comments: document[
+                                                            'comments'],
+                                                      )),
+                                            );
                                           },
                                           child: Text("View Details"),
                                           color: Colors.amber,
