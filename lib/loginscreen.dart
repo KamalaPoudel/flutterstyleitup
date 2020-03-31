@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
       print(user.uid);
       print("login successful");
 
+      Navigator.of(context).pushNamed('/home');
+
       return user.uid;
     } catch (e) {
       showDialog(
@@ -75,9 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: RaisedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/home');
-                        },
+                        onPressed: login,
                         child: Text("Login"),
                         color: Colors.pinkAccent,
                       ),

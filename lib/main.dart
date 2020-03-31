@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:style_it_up/comments.dart';
 import 'package:style_it_up/customerbooking.dart';
+import 'package:style_it_up/details.dart';
+import 'package:style_it_up/haircare.dart';
 import 'package:style_it_up/registerscreen.dart';
+import 'package:style_it_up/seeappointments.dart';
 import 'package:style_it_up/welcomepage.dart';
 
 import 'loginscreen.dart';
@@ -32,7 +36,11 @@ class _MyAppState extends State<MyApp> {
         '/home': (BuildContext context) => CustomerHome(),
         '/orghome': (BuildContext context) => OrgHome(),
         '/hairinfo': (BuildContext context) => OrgUploadInfo(),
+        '/haircare': (BuildContext context) => HairCare(),
+        '/details': (BuildContext context) => Details(),
         '/myBooking': (BuildContext context) => CustomerBooking(),
+        '/seeAppointments': (BuildContext context) => SeeAppointments(),
+        '/commentPage': (BuildContext context) => CommentPage(),
       },
     );
   }

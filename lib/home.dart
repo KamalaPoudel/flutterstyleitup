@@ -21,7 +21,7 @@ class _LoginScreenState extends State<CustomerHome> {
         children: <Widget>[
           RaisedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/myBooking');
+              Navigator.of(context).pushNamed('/haircare');
             },
             child: Text("Hair Treatment"),
             color: Colors.white70,

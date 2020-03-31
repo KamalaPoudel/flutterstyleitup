@@ -57,7 +57,9 @@ class _OrgHomeState extends State<OrgHome> {
                 borderRadius: BorderRadius.circular(15.0)),
           ),
           RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('/seeAppointments');
+              },
               child: Text("See Appointments"),
               color: Colors.white70,
               shape: RoundedRectangleBorder(
