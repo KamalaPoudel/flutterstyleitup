@@ -25,7 +25,6 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
       'estimatedTime': estimatedTime.text,
       'location': location.text
     });
-    _showAlert();
   }
 
   clearTextInput() {
@@ -34,209 +33,98 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
     estimatedTime.clear();
   }
 
-  void _showAlert() {
+  void _showDialog() {
+    // flutter defined function
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("invalid details"),
-            content: Text("Your email or password is wrong"),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("OKAY"),
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Add a Service"),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextField(
+                  controller: serviceName,
+                  decoration: InputDecoration(hintText: "Service Name"),
+                ),
+                TextField(
+                  controller: price,
+                  decoration: InputDecoration(hintText: "Service Price"),
+                ),
+                TextField(
+                  controller: estimatedTime,
+                  decoration: InputDecoration(hintText: "Service Time"),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: new Text("Upload"),
+              onPressed: () {
+                Firestore.instance
+                    .collection('Organizationinfo')
+                    .document("Ansa")
+                    .updateData({
+                  "services": FieldValue.arrayUnion([
+                    {
+                      "serviceName": serviceName.text,
+                      "price": price.text,
+                      "estimatedTime": estimatedTime.text
+                    }
+                  ])
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Upload Information"),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(25.0, 45.0, 10.0, 45.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: Text(
-                      "Organization Name",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        110,
-                    child: TextField(
-                      controller: organizationName,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: Text(
-                      "Service Name",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        110,
-                    child: TextField(
-                      controller: serviceName,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        230,
-                    child: FloatingActionButton(
-                      onPressed: clearTextInput,
-                      child: Icon(Icons.add),
-                      backgroundColor: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              // Row(
-              //   children: <Widget>[
-              //     Container(
-              //       height: 30,
-              //       width: MediaQuery.of(context).size.width -
-              //           (MediaQuery.of(context).size.width / 4) -
-              //           50,
-              //       child: FloatingActionButton(
-              //         onPressed: () {
-              //           // Add your onPressed code here!
-              //         },
-              //         child: Icon(Icons.navigation),
-              //         backgroundColor: Colors.green,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: Text(
-                      "Price",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        110,
-                    child: TextField(
-                      controller: price,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: Text(
-                      "Estimated Time",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        110,
-                    child: TextField(
-                      controller: estimatedTime,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    child: Text(
-                      "Location",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width -
-                        (MediaQuery.of(context).size.width / 4) -
-                        110,
-                    child: TextField(
-                      controller: location,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              RaisedButton(
-                onPressed: () => createOrganizationDb,
-                child: Text(
-                  "Upload Information",
-                  style: TextStyle(color: Colors.black87),
-                ),
-                color: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-              ),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text("Upload Information"),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.add), onPressed: () => _showDialog())
+          ],
         ),
-      ),
-    );
+        body: StreamBuilder<DocumentSnapshot>(
+          stream: Firestore.instance
+              .collection('Organizationinfo')
+              .document("Ansa")
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return new Text('Loading...');
+              default:
+                return ListView.builder(
+                  itemCount: snapshot.data.data["services"].length,
+                  itemBuilder: (BuildContext context, index) {
+                    var service = snapshot.data.data["services"][index];
+                    return ListTile(
+                      title: Text(service["serviceName"]),
+                      trailing: Text(service["price"]),
+                    );
+                  },
+                );
+            }
+          },
+        ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SeeAppointments extends StatefulWidget {
   @override
@@ -69,8 +70,10 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 15.0),
                                     child: Text(
-                                      document['Date: _formattedate']
-                                          .toString(),
+                                      DateFormat('MMMM dd, y, h:mm a').format(
+                                          DateTime.parse(document['date']
+                                              .toDate()
+                                              .toString())),
                                       style: TextStyle(fontSize: 18.0),
                                     ),
                                   ),
