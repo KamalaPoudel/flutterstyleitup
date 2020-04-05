@@ -1,16 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CustomerHome extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _CustomerHomeState createState() => _CustomerHomeState();
 }
 
-class _LoginScreenState extends State<CustomerHome> {
+class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        leading: IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushNamed('/Welcomepage');
+            }),
       ),
       body: GridView.count(
         primary: false,

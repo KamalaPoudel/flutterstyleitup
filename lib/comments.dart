@@ -82,7 +82,7 @@ class _CommentPageState extends State<CommentPage> {
                     children: <Widget>[
                       Container(
                         height: 50,
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: MediaQuery.of(context).size.width / 1.6,
                         child: TextFormField(
                           controller: commentController,
                           cursorColor: Colors.black,
@@ -96,7 +96,7 @@ class _CommentPageState extends State<CommentPage> {
                       ),
                       RaisedButton(
                         child: Padding(
-                          padding: const EdgeInsets.all(6.0),
+                          padding: const EdgeInsets.all(9.0),
                           child: Text("Posts"),
                         ),
                         onPressed: () async {
@@ -119,7 +119,7 @@ class _CommentPageState extends State<CommentPage> {
                         },
                         color: Colors.blue[800],
                         textColor: Colors.white,
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
                         splashColor: Colors.grey,
                       )
                     ],

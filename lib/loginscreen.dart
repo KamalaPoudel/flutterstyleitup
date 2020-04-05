@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
               .signInWithEmailAndPassword(
                   email: email.text, password: password.text))
           .user;
+
       print(user.uid);
       print("login successful");
 

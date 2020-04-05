@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:style_it_up/comments.dart';
 import 'package:style_it_up/customerbooking.dart';
@@ -15,7 +16,7 @@ import 'orginfouploadpage.dart';
 import 'home.dart';
 import 'customerbooking.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatefulWidget {
   @override
@@ -23,16 +24,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String userEmail;
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser != null) {
+        setState(() {
+          userEmail = firebaseUser.email;
+          print("Logged in user email:- " + userEmail);
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Welcomepage(),
+      home: _getLandingPage(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
         '/registration': (BuildContext context) => Registrationscreen(),
         '/organizationlogin': (BuildContext context) =>
             OrganizationLoginScreen(),
+        '/Welcomepage': (BuildContext context) => Welcomepage(),
         '/home': (BuildContext context) => CustomerHome(),
         '/orghome': (BuildContext context) => OrgHome(),
         '/hairinfo': (BuildContext context) => OrgUploadInfo(),
@@ -43,5 +59,13 @@ class _MyAppState extends State<MyApp> {
         '/commentPage': (BuildContext context) => CommentPage(),
       },
     );
+  }
+
+  Widget _getLandingPage() {
+    if (userEmail != null) {
+      return CustomerHome();
+    } else {
+      return Welcomepage();
+    }
   }
 }
