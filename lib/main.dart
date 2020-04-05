@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:style_it_up/comments.dart';
@@ -9,7 +10,9 @@ import 'package:style_it_up/seeappointments.dart';
 import 'package:style_it_up/welcomepage.dart';
 
 import 'loginscreen.dart';
+import 'loginscreen.dart';
 import 'organizationlogin.dart';
+import 'orghome.dart';
 import 'orghome.dart';
 import 'orginfouploadpage.dart';
 
@@ -25,6 +28,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String userEmail;
+  String loggedInUserType;
   @override
   void initState() {
     super.initState();
@@ -34,7 +38,22 @@ class _MyAppState extends State<MyApp> {
           userEmail = firebaseUser.email;
           print("Logged in user email:- " + userEmail);
         });
+        getUserType();
       }
+    });
+  }
+
+  void getUserType() async {
+    await Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((DocumentSnapshot ds) {
+      setState(() {
+        loggedInUserType = ds.data['userType'];
+      });
+      // use ds as a snapshot
+      print("User type:- " + loggedInUserType);
     });
   }
 
@@ -63,9 +82,13 @@ class _MyAppState extends State<MyApp> {
 
   Widget _getLandingPage() {
     if (userEmail != null) {
-      return CustomerHome();
+      if (loggedInUserType == "customer") {
+        return CustomerHome();
+      } else {
+        return OrgHome();
+      }
     } else {
-      return Welcomepage();
+      return LoginScreen();
     }
   }
 }

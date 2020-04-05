@@ -11,7 +11,7 @@ class _CustomerHomeState extends State<CustomerHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Home for customer"),
         leading: IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {

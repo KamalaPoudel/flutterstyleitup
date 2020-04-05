@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:style_it_up/registerscreen.dart';
@@ -11,17 +12,34 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
+  String userType;
   Future<void> login() async {
     try {
       FirebaseUser user = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(
                   email: email.text, password: password.text))
           .user;
-
+      await Firestore.instance
+          .collection('users')
+          .document(email.text.trim())
+          .get()
+          .then((DocumentSnapshot ds) {
+        setState(() {
+          userType = ds.data['userType'];
+        });
+        // use ds as a snapshot
+        print(userType);
+      });
       print(user.uid);
       print("login successful");
 
-      Navigator.of(context).pushNamed('/home');
+      if (user.uid.length > 0 && user.uid != null) {
+        if (userType == "organization") {
+          Navigator.of(context).pushNamed('/home');
+        } else {
+          Navigator.of(context).pushNamed('/orghome');
+        }
+      }
 
       return user.uid;
     } catch (e) {

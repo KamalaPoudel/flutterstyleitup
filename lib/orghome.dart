@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrgHome extends StatefulWidget {
@@ -10,7 +11,13 @@ class _OrgHomeState extends State<OrgHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Home for Org"),
+        leading: IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushNamed('/Welcomepage');
+            }),
       ),
       body: GridView.count(
         primary: false,
