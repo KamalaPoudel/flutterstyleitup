@@ -39,7 +39,7 @@ class _WelcomepageState extends State<Welcomepage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed('/login');
                   },
-                  child: Text("Login as Customer",
+                  child: Text("Login",
                       style: TextStyle(
                         color: Colors.white,
                       )),
