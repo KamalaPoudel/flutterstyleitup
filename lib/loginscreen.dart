@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("login successful");
 
       if (user.uid.length > 0 && user.uid != null) {
-        if (userType == "organization") {
+        if (userType == "customer") {
           Navigator.of(context).pushNamed('/home');
         } else {
           Navigator.of(context).pushNamed('/orghome');
@@ -67,7 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -78,7 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset("icon.png"),
               ),
-              Text("Customer Login"),
+              Text(
+                "Login",
+                style: TextStyle(fontSize: 24.0),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(

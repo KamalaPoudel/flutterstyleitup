@@ -57,128 +57,140 @@ class _CustomerBookingState extends State<CustomerBooking> {
   Widget build(BuildContext context) {
     String _formattedate = new DateFormat.yMMMd().format(_currentdate);
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Make Booking"),
-        ),
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(27.0, 45.0, 10.0, 45.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Make Booking"),
+      ),
+      body: Container(
+        height: 600,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.red[300], Colors.yellow])),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(27.0, 45.0, 10.0, 45.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Row(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Text(
-                              "Your Full Name",
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width -
-                                (MediaQuery.of(context).size.width / 4) -
-                                95,
-                            child: TextField(
-                              controller: yourFullName,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Text(
-                              "Location",
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width -
-                                (MediaQuery.of(context).size.width / 4) -
-                                95,
-                            child: TextField(
-                              controller: location1,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Text(
-                              "Contact Number",
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 35,
-                            width: MediaQuery.of(context).size.width -
-                                (MediaQuery.of(context).size.width / 4) -
-                                95,
-                            child: TextField(
-                              controller: contactNumber,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Text(
-                              "Choose your date",
-                              style: TextStyle(
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text('Date: $_formattedate'),
-                              IconButton(
-                                onPressed: () {
-                                  _selectdate(context);
-                                },
-                                icon: Icon(Icons.calendar_today),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                      RaisedButton(
-                        onPressed: (createCustomerBookingDb),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
                         child: Text(
-                          "Book",
-                          style: TextStyle(color: Colors.black87),
+                          "Your Full Name",
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
                         ),
-                        color: Colors.blueAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
                       ),
-                    ]))));
+                      Container(
+                        height: 35,
+                        width: MediaQuery.of(context).size.width -
+                            (MediaQuery.of(context).size.width / 4) -
+                            95,
+                        child: TextField(
+                          controller: yourFullName,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          "Location",
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 35,
+                        width: MediaQuery.of(context).size.width -
+                            (MediaQuery.of(context).size.width / 4) -
+                            95,
+                        child: TextField(
+                          controller: location1,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          "Contact Number",
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 35,
+                        width: MediaQuery.of(context).size.width -
+                            (MediaQuery.of(context).size.width / 4) -
+                            95,
+                        child: TextField(
+                          controller: contactNumber,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          "Choose your date",
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text('Date: $_formattedate'),
+                          IconButton(
+                            onPressed: () {
+                              _selectdate(context);
+                            },
+                            icon: Icon(Icons.calendar_today),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                  RaisedButton(
+                    onPressed: (createCustomerBookingDb),
+                    child: Text(
+                      "Book",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                  ),
+                ]),
+          ),
+        ),
+      ),
+    );
   }
 }

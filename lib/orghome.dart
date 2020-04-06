@@ -11,7 +11,8 @@ class _OrgHomeState extends State<OrgHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home for Org"),
+        centerTitle: true,
+        title: Text("Organization Home"),
         leading: IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {
@@ -19,59 +20,66 @@ class _OrgHomeState extends State<OrgHome> {
               Navigator.of(context).pushNamed('/Welcomepage');
             }),
       ),
-      body: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/hairinfo');
-            },
-            child: Text("Hair Treatment"),
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-          ),
-          RaisedButton(
-            onPressed: () {},
-            child: Text("Make Up"),
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-          ),
-          RaisedButton(
-            onPressed: () {},
-            child: Text("Body Spa"),
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-          ),
-          RaisedButton(
-            onPressed: () {},
-            child: Text("Nail Art"),
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-          ),
-          RaisedButton(
-            onPressed: () {},
-            child: Text("Gallery"),
-            color: Colors.white70,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-          ),
-          RaisedButton(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.green, Colors.blue])),
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: <Widget>[
+            RaisedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed('/seeAppointments');
+                Navigator.of(context).pushNamed('/hairinfo');
               },
-              child: Text("See Appointments"),
+              child: Text("Hair Treatment"),
               color: Colors.white70,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0))),
-        ],
+                  borderRadius: BorderRadius.circular(15.0)),
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text("Make Up"),
+              color: Colors.white70,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text("Body Spa"),
+              color: Colors.white70,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text("Nail Art"),
+              color: Colors.white70,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text("Gallery"),
+              color: Colors.white70,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+            ),
+            RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/seeAppointments');
+                },
+                child: Text("See Appointments"),
+                color: Colors.white70,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0))),
+          ],
+        ),
       ),
     );
   }

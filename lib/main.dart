@@ -10,16 +10,14 @@ import 'package:style_it_up/seeappointments.dart';
 import 'package:style_it_up/welcomepage.dart';
 
 import 'loginscreen.dart';
-import 'loginscreen.dart';
-import 'organizationlogin.dart';
-import 'orghome.dart';
 import 'orghome.dart';
 import 'orginfouploadpage.dart';
 
 import 'home.dart';
 import 'customerbooking.dart';
 
-void main() => runApp(MaterialApp(home: MyApp()));
+void main() =>
+    runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
 
 class MyApp extends StatefulWidget {
   @override
@@ -65,8 +63,6 @@ class _MyAppState extends State<MyApp> {
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
         '/registration': (BuildContext context) => Registrationscreen(),
-        '/organizationlogin': (BuildContext context) =>
-            OrganizationLoginScreen(),
         '/Welcomepage': (BuildContext context) => Welcomepage(),
         '/home': (BuildContext context) => CustomerHome(),
         '/orghome': (BuildContext context) => OrgHome(),

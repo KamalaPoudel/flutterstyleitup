@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:style_it_up/orghome.dart';
 
 class OrgUploadInfo extends StatefulWidget {
   @override
@@ -100,31 +99,38 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
             IconButton(icon: Icon(Icons.add), onPressed: () => _showDialog())
           ],
         ),
-        body: StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
-              .collection('Organizationinfo')
-              .document("Ansa")
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+        body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.green, Colors.blue])),
+            child: StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance
+                  .collection('Organizationinfo')
+                  .document("Ansa")
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError)
+                  return new Text('Error: ${snapshot.error}');
 
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return new Text('Loading...');
-              default:
-                return ListView.builder(
-                  itemCount: snapshot.data.data["services"].length,
-                  itemBuilder: (BuildContext context, index) {
-                    var service = snapshot.data.data["services"][index];
-                    return ListTile(
-                      title: Text(service["serviceName"]),
-                      trailing: Text(service["price"]),
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return new Text('Loading...');
+                  default:
+                    return ListView.builder(
+                      itemCount: snapshot.data.data["services"].length,
+                      itemBuilder: (BuildContext context, index) {
+                        var service = snapshot.data.data["services"][index];
+                        return ListTile(
+                          title: Text(service["serviceName"]),
+                          trailing: Text(service["price"]),
+                        );
+                      },
                     );
-                  },
-                );
-            }
-          },
-        ));
+                }
+              },
+            )));
   }
 }
