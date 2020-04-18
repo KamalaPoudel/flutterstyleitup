@@ -69,55 +69,65 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text("Login Here"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset("icon.png"),
-              ),
-              Text(
-                "Login",
-                style: TextStyle(fontSize: 24.0),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextField(
-                      controller: email,
-                      decoration: InputDecoration(hintText: "Email"),
-                    ),
-                    TextField(
-                      controller: password,
-                      obscureText: true,
-                      decoration: InputDecoration(hintText: "Password"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: RaisedButton(
-                        onPressed: login,
-                        child: Text("Login"),
-                        color: Colors.pinkAccent,
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Registrationscreen()));
-                        },
-                        child: Text("Don't have account? Signup!"))
-                  ],
+      body: Container(
+        height: 600.0,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.green, Colors.blue])),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("icon.png"),
                 ),
-              ),
-            ],
+                Text(
+                  "Login",
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextField(
+                        controller: email,
+                        decoration: InputDecoration(hintText: "Email"),
+                      ),
+                      TextField(
+                        controller: password,
+                        obscureText: true,
+                        decoration: InputDecoration(hintText: "Password"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: RaisedButton(
+                          onPressed: login,
+                          child: Text("Login"),
+                          color: Colors.pinkAccent,
+                        ),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Registrationscreen()));
+                          },
+                          child: Text("Don't have account? Signup!"))
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

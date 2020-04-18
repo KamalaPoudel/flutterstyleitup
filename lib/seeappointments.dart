@@ -12,7 +12,8 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("See Appointments"),
+          centerTitle: true,
+          title: Text(" Appointments"),
         ),
         body: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance.collection('CustomerBooking').snapshots(),
