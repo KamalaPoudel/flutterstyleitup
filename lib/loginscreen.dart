@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       return user.uid;
     } catch (e) {
+      print(e.message);
       showDialog(
           context: context,
           builder: (BuildContext context) {

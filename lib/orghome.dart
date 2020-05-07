@@ -64,7 +64,9 @@ class _OrgHomeState extends State<OrgHome> {
                   borderRadius: BorderRadius.circular(15.0)),
             ),
             RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('/galleryPage');
+              },
               child: Text("Gallery"),
               color: Colors.white70,
               shape: RoundedRectangleBorder(

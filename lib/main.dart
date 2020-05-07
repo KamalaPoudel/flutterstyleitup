@@ -9,6 +9,9 @@ import 'package:style_it_up/registerscreen.dart';
 import 'package:style_it_up/seeappointments.dart';
 import 'package:style_it_up/welcomepage.dart';
 
+import 'package:flutter/widgets.dart';
+
+import 'gallery.dart';
 import 'loginscreen.dart';
 import 'orghome.dart';
 import 'orginfouploadpage.dart';
@@ -72,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         '/myBooking': (BuildContext context) => CustomerBooking(),
         '/seeAppointments': (BuildContext context) => SeeAppointments(),
         '/commentPage': (BuildContext context) => CommentPage(),
+        '/galleryPage': (BuildContext context) => Gallery(),
       },
     );
   }
