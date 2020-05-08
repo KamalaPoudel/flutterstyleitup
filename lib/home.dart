@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:style_it_up/customerGallery.dart';
 
 class CustomerHome extends StatefulWidget {
   @override
@@ -64,7 +65,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                   borderRadius: BorderRadius.circular(15.0)),
             ),
             RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CustomerGallery()));
+              },
               child: Text("Gallery"),
               color: Colors.indigo[300],
               shape: RoundedRectangleBorder(

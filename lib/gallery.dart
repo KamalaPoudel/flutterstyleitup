@@ -16,13 +16,18 @@ class _GalleryState extends State<Gallery> {
   bool _isLoading = false;
 
   final databaseReference = Firestore.instance;
+  TextEditingController dogBreed = TextEditingController();
+  TextEditingController dogHeight = TextEditingController();
+  TextEditingController dogWeight = TextEditingController();
+  TextEditingController dogLifeSpan = TextEditingController();
+  TextEditingController dogDescription = TextEditingController();
 
   Future<void> getImage() async {
     List<Asset> resultList = List<Asset>();
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 5,
+        maxImages: 2,
         enableCamera: true,
 
         selectedAssets: images,
@@ -55,6 +60,12 @@ class _GalleryState extends State<Gallery> {
               setState(() {
                 images = [];
                 imageUrls = [];
+                dogBreed.clear();
+                dogDescription.clear();
+                dogHeight.clear();
+                dogLifeSpan.clear();
+                dogWeight.clear();
+                _isLoading = false;
               });
             });
           }
@@ -65,15 +76,13 @@ class _GalleryState extends State<Gallery> {
           print(err);
         });
       }
-    } else {
-      print("Empty field");
-    }
+    } else {}
   }
 
   Future<dynamic> postImage(Asset imageFile) async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference reference =
-        FirebaseStorage.instance.ref().child('Dog Breeds').child(fileName);
+        FirebaseStorage.instance.ref().child('Gallery').child(fileName);
     StorageUploadTask uploadTask =
         reference.putData((await imageFile.getByteData()).buffer.asUint8List());
     StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
@@ -87,14 +96,7 @@ class _GalleryState extends State<Gallery> {
       backgroundColor: Color.fromARGB(0xff, 241, 241, 254),
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Add Gallery Images'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[Color(0xffff9966), Color(0xffff5e62)])),
-        ),
+        title: Text('Add Images To Gallery'),
       ),
       body: GestureDetector(
         onTap: () {
@@ -102,11 +104,12 @@ class _GalleryState extends State<Gallery> {
         },
         child: Stack(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: 15),
                     InkWell(
                       onTap: () {
                         getImage();
@@ -127,6 +130,8 @@ class _GalleryState extends State<Gallery> {
                                   return Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Container(
+                                      // height: 50,
+                                      // width: 50,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15)),
@@ -143,7 +148,7 @@ class _GalleryState extends State<Gallery> {
                             : Container(
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: Text("Choose a picture"),
+                                  child: Text("Choose a pictures"),
                                 ),
                               ),
                         //  Text("Tap to Choose or Take Picture"),
