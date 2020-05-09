@@ -14,6 +14,7 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   @override
   Icon actionIcon = new Icon(Icons.chat_bubble_outline);
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +32,6 @@ class _DetailsState extends State<Details> {
                     builder: (context) => CommentPage(
                           collectionName: widget.collectionName,
                           documentid: widget.documentid,
-                          comments: widget.comments,
                         )),
               );
             },
