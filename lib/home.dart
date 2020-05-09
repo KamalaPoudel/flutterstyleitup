@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:style_it_up/appointment.dart';
 import 'package:style_it_up/customerGallery.dart';
+import 'package:style_it_up/profile.dart';
 
 class CustomerHome extends StatefulWidget {
   @override
@@ -14,12 +16,72 @@ class _CustomerHomeState extends State<CustomerHome> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home for customer"),
-        leading: IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushNamed('/Welcomepage');
-            }),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.deepOrange, Colors.orangeAccent])),
+              child: Container(
+                  child: Column(
+                children: <Widget>[
+                  Material(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    elevation: 10,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        "icon.png",
+                        width: 80,
+                        height: 80,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'STYLEitUP',
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    ),
+                  ),
+                ],
+              )),
+            ),
+            ListTile(
+              title: Text(
+                'My Profile',
+                style: TextStyle(color: Colors.black, fontSize: 18.0),
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => myProfile()));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'My Appointment',
+                style: TextStyle(color: Colors.black, fontSize: 18.0),
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => myAppointment()));
+              },
+            ),
+            ListTile(
+              title: Text(
+                'Log Out',
+                style: TextStyle(color: Colors.black, fontSize: 18.0),
+              ),
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushNamed('/Welcomepage');
+              },
+            ),
+          ],
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(

@@ -14,20 +14,15 @@ class _GalleryState extends State<Gallery> {
   List<String> imageUrls = <String>[];
   String _errorMessage;
   bool _isLoading = false;
-
+  TextEditingController collectionName = TextEditingController();
   final databaseReference = Firestore.instance;
-  TextEditingController dogBreed = TextEditingController();
-  TextEditingController dogHeight = TextEditingController();
-  TextEditingController dogWeight = TextEditingController();
-  TextEditingController dogLifeSpan = TextEditingController();
-  TextEditingController dogDescription = TextEditingController();
 
   Future<void> getImage() async {
     List<Asset> resultList = List<Asset>();
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 2,
+        maxImages: 4,
         enableCamera: true,
 
         selectedAssets: images,
@@ -46,7 +41,7 @@ class _GalleryState extends State<Gallery> {
   }
 
   void uploadImages() async {
-    if (images.isNotEmpty) {
+    if (images.isNotEmpty && collectionName.text.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
@@ -56,15 +51,12 @@ class _GalleryState extends State<Gallery> {
           if (imageUrls.length == images.length) {
             Firestore.instance.collection('Gallery').document().setData({
               'Pictures': imageUrls,
+              'Collection name': collectionName.text.trim(),
             }).then((_) {
               setState(() {
                 images = [];
                 imageUrls = [];
-                dogBreed.clear();
-                dogDescription.clear();
-                dogHeight.clear();
-                dogLifeSpan.clear();
-                dogWeight.clear();
+                collectionName.clear();
                 _isLoading = false;
               });
             });
@@ -110,13 +102,22 @@ class _GalleryState extends State<Gallery> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 15),
+                    TextFormField(
+                      controller: collectionName,
+                      decoration: InputDecoration(
+                        labelText: "Collection Name",
+                        hintText: "Collection Name",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     InkWell(
                       onTap: () {
                         getImage();
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height / 2.6,
+                        height: MediaQuery.of(context).size.height / 1.5,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.grey),

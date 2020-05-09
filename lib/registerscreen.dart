@@ -33,6 +33,7 @@ class _RegistrationscreenState extends State<Registrationscreen> {
     Firestore.instance.collection('users').document(email.text).setData({
       'email': email.text,
       'fullName': fullName.text,
+      'address': address.text,
       'phoneNumber': phoneNumber.text,
       'userType': group
     });
