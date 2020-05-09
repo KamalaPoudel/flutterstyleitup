@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:style_it_up/home.dart';
 
 import 'details.dart';
 
@@ -13,6 +14,15 @@ class _HairCareState extends State<HairCare> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CustomerHome()),
+              );
+            },
+            child: Icon(Icons.chevron_left)),
         centerTitle: true,
         title: Text("Hair Care"),
       ),

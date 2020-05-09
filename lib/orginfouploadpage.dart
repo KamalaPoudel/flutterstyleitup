@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrgUploadInfo extends StatefulWidget {
@@ -7,6 +8,23 @@ class OrgUploadInfo extends StatefulWidget {
 }
 
 class _OrgUploadInfoState extends State<OrgUploadInfo> {
+  String userEmail;
+  @override
+  void initState() {
+    super.initState();
+    userData();
+  }
+
+  Future<String> userData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final String email = user.email;
+    this.setState(() {
+      userEmail = email;
+    });
+
+    return email;
+  }
+
   TextEditingController organizationName = TextEditingController();
   TextEditingController serviceName = TextEditingController();
   TextEditingController price = TextEditingController();
@@ -14,16 +32,15 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
   TextEditingController location = TextEditingController();
 
   Future<String> createOrganizationDb() async {
-    Firestore.instance
-        .collection('Organizationinfo')
-        .document(organizationName.text)
-        .setData({
+    Firestore.instance.collection('Organizationinfo').document().setData({
+      'email': userEmail,
       'organizationName': organizationName.text,
       'serviceName': serviceName.text,
       'Price': price.text,
       'estimatedTime': estimatedTime.text,
       'location': location.text
     });
+    return null;
   }
 
   clearTextInput() {
@@ -72,7 +89,7 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
               onPressed: () {
                 Firestore.instance
                     .collection('Organizationinfo')
-                    .document("Ansa")
+                    .document()
                     .updateData({
                   "services": FieldValue.arrayUnion([
                     {
@@ -108,7 +125,7 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
                   .collection('Organizationinfo')
-                  .document("Ansa")
+                  .document()
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
