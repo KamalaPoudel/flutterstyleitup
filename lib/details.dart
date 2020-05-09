@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:style_it_up/haircare.dart';
 
 import 'comments.dart';
 
@@ -19,7 +20,16 @@ class _DetailsState extends State<Details> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text(widget.collectionName),
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HairCare()),
+              );
+            },
+            child: Icon(Icons.chevron_left)),
         actions: <Widget>[
           new IconButton(
             icon: actionIcon,
