@@ -98,7 +98,7 @@ class _CommentPageState extends State<CommentPage> {
                 children: <Widget>[
                   Container(
                     height: 50,
-                    width: MediaQuery.of(context).size.width / 1.4,
+                    width: MediaQuery.of(context).size.width / 1.5,
                     child: TextFormField(
                       controller: commentController,
                       cursorColor: Colors.black,
@@ -108,7 +108,7 @@ class _CommentPageState extends State<CommentPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 9,
                   ),
                   RaisedButton(
                     child: Padding(
@@ -126,7 +126,7 @@ class _CommentPageState extends State<CommentPage> {
                           'comments': FieldValue.arrayUnion([
                             {
                               "comment": commentController.text,
-                              "name": 'Your name here'
+                              "name": 'Your name here',
                             }
                           ]),
                         });
