@@ -81,24 +81,24 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
                                 ),
                                 Row(
                                   children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8, top: 8, right: 8, bottom: 4),
-                                      child: Container(
-                                        height: 25,
-                                        child: RaisedButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/orghome');
-                                          },
-                                          child: Text("Change Date"),
-                                          color: Colors.green,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0)),
-                                        ),
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(
+                                    //       left: 8, top: 8, right: 8, bottom: 4),
+                                    //   child: Container(
+                                    //     height: 25,
+                                    //     child: RaisedButton(
+                                    //       onPressed: () {
+                                    //         Navigator.of(context)
+                                    //             .pushNamed('/orghome');
+                                    //       },
+                                    //       child: Text("Change Date"),
+                                    //       color: Colors.green,
+                                    //       shape: RoundedRectangleBorder(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(15.0)),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 12, right: 8, bottom: 8),
@@ -106,7 +106,13 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
                                         width: 112,
                                         height: 25,
                                         child: RaisedButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            await Firestore.instance
+                                                .collection('CustomerBooking')
+                                                .document(
+                                                    document['serviceDoc'])
+                                                .delete();
+                                          },
                                           child: Text("Delete"),
                                           color: Colors.amber,
                                           shape: RoundedRectangleBorder(

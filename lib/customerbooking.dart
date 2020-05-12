@@ -1,8 +1,14 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:style_it_up/details.dart';
 
 class CustomerBooking extends StatefulWidget {
+  String serviceId;
+  CustomerBooking({this.serviceId});
+
   @override
   _CustomerBookingState createState() => _CustomerBookingState();
 }
@@ -16,22 +22,69 @@ class _CustomerBookingState extends State<CustomerBooking> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    print(widget.serviceId);
     super.initState();
     // _controller = CalendarController();
   }
 
   Future<String> createCustomerBookingDb() async {
-    Firestore.instance
-        .collection('CustomerBooking')
-        .document(contactNumber.text)
-        .setData({
-      'yourFullName': yourFullName.text,
-      'location': location1.text,
-      'contactNumber': contactNumber.text,
-      'date': _currentdate,
-    });
-    return contactNumber.text;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseUser user = await _auth.currentUser();
+
+    if (yourFullName.text.isNotEmpty &&
+        location1.text.isNotEmpty &&
+        contactNumber.text.isNotEmpty &&
+        _currentdate != null) {
+      DocumentReference serviceReference =
+          Firestore.instance.document("services/" + widget.serviceId);
+      Firestore.instance.collection('CustomerBooking').document().setData({
+        "userId": user.uid,
+        'yourFullName': yourFullName.text,
+        'location': location1.text,
+        'contactNumber': contactNumber.text,
+        'date': _currentdate,
+        'serviceDoc': serviceReference,
+        'userEmail': user.email
+      });
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Booking Information"),
+              content: Text("Successfully Booked"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    yourFullName.clear();
+                    location1.clear();
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Details()));
+                  },
+                  child: Text("OKAY"),
+                ),
+              ],
+            );
+          });
+      return contactNumber.text;
+    } else {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Booking Information"),
+              content: Text("Invalid Data"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OKAY"),
+                ),
+              ],
+            );
+          });
+    }
   }
 
   DateTime _currentdate = new DateTime.now();
@@ -178,7 +231,9 @@ class _CustomerBookingState extends State<CustomerBooking> {
                     ],
                   ),
                   RaisedButton(
-                    onPressed: (createCustomerBookingDb),
+                    onPressed: () {
+                      createCustomerBookingDb();
+                    },
                     child: Text(
                       "Book",
                       style: TextStyle(color: Colors.white),

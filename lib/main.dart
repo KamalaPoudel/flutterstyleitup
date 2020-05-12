@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:style_it_up/comments.dart';
 import 'package:style_it_up/customerbooking.dart';
 import 'package:style_it_up/details.dart';
+import 'package:style_it_up/details.dart';
 import 'package:style_it_up/haircare.dart';
 import 'package:style_it_up/registerscreen.dart';
 import 'package:style_it_up/seeappointments.dart';

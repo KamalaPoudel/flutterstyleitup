@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class OrgUploadInfo extends StatefulWidget {
   @override
@@ -13,6 +14,11 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
   void initState() {
     super.initState();
     userData();
+  }
+
+  Future<dynamic> referenceData(DocumentReference documentReference) async {
+    DocumentSnapshot reference = await documentReference.get();
+    return reference.data;
   }
 
   Future<String> userData() async {
@@ -30,18 +36,6 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
   TextEditingController price = TextEditingController();
   TextEditingController estimatedTime = TextEditingController();
   TextEditingController location = TextEditingController();
-
-  Future<String> createOrganizationDb() async {
-    Firestore.instance.collection('Organizationinfo').document().setData({
-      'email': userEmail,
-      'organizationName': organizationName.text,
-      'serviceName': serviceName.text,
-      'Price': price.text,
-      'estimatedTime': estimatedTime.text,
-      'location': location.text
-    });
-    return null;
-  }
 
   clearTextInput() {
     serviceName.clear();
@@ -87,18 +81,33 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
             FlatButton(
               child: new Text("Upload"),
               onPressed: () {
+                var uuid = Uuid();
+                String serviceId = uuid.v4();
+                DocumentReference serviceReference =
+                    Firestore.instance.document("services/" + serviceId);
+                DocumentReference orgReference =
+                    Firestore.instance.document("users/" + userEmail);
+
+                //For organization service sub collection
                 Firestore.instance
-                    .collection('Organizationinfo')
-                    .document()
-                    .updateData({
-                  "services": FieldValue.arrayUnion([
-                    {
-                      "serviceName": serviceName.text,
-                      "price": price.text,
-                      "estimatedTime": estimatedTime.text
-                    }
-                  ])
+                    .collection('users')
+                    .document(userEmail)
+                    .collection("services")
+                    .document(serviceId)
+                    .setData({"serviceDoc": serviceReference});
+
+                Firestore.instance
+                    .collection('services')
+                    .document(serviceId)
+                    .setData({
+                  "serviceId": serviceId,
+                  "serviceName": serviceName.text,
+                  "orgEmail": userEmail,
+                  "price": price.text,
+                  "estimatedTime": estimatedTime.text,
+                  "orgDoc": orgReference
                 });
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -122,13 +131,14 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [Colors.green, Colors.blue])),
-            child: StreamBuilder<DocumentSnapshot>(
+            child: StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance
-                  .collection('Organizationinfo')
-                  .document()
+                  .collection('users')
+                  .document(userEmail)
+                  .collection("services")
                   .snapshots(),
               builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError)
                   return new Text('Error: ${snapshot.error}');
 
@@ -137,13 +147,36 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     return new Text('Loading...');
                   default:
                     return ListView.builder(
-                      itemCount: snapshot.data.data["services"].length,
+                      itemCount: snapshot.data.documents.length,
                       itemBuilder: (BuildContext context, index) {
-                        var service = snapshot.data.data["services"][index];
-                        return ListTile(
-                          title: Text(service["serviceName"]),
-                          trailing: Text(service["price"]),
-                        );
+                        var service = snapshot.data.documents[index];
+                        return FutureBuilder(
+                            future: referenceData(service['serviceDoc']),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<dynamic> serviceSnapshot) {
+                              if (serviceSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              } else if (serviceSnapshot.connectionState ==
+                                  ConnectionState.active) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else if (serviceSnapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return ListTile(
+                                  title:
+                                      Text(serviceSnapshot.data["serviceName"]),
+                                  trailing: Text(serviceSnapshot.data["price"]),
+                                );
+                              }
+                              return Text("Nodata");
+                            });
                       },
                     );
                 }

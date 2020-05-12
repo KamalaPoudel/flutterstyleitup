@@ -17,11 +17,11 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       FirebaseUser user = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(
-                  email: email.text, password: password.text))
+                  email: email.text.toLowerCase(), password: password.text))
           .user;
       await Firestore.instance
           .collection('users')
-          .document(email.text.trim())
+          .document(email.text.toLowerCase().trim())
           .get()
           .then((DocumentSnapshot ds) {
         setState(() {
@@ -43,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       return user.uid;
     } catch (e) {
-      print(e.message);
       showDialog(
           context: context,
           builder: (BuildContext context) {

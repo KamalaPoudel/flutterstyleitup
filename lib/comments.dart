@@ -122,7 +122,7 @@ class _CommentPageState extends State<CommentPage> {
                         await databaseReference
                             .collection(widget.collectionName)
                             .document(id1)
-                            .updateData({
+                            .setData({
                           'comments': FieldValue.arrayUnion([
                             {
                               "comment": commentController.text,

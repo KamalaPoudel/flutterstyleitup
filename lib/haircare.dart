@@ -33,8 +33,10 @@ class _HairCareState extends State<HairCare> {
                   end: Alignment.bottomRight,
                   colors: [Colors.green, Colors.blue])),
           child: StreamBuilder<QuerySnapshot>(
-            stream:
-                Firestore.instance.collection('Organizationinfo').snapshots(),
+            stream: Firestore.instance
+                .collection('users')
+                .where("userType", isEqualTo: "organization")
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
@@ -59,7 +61,7 @@ class _HairCareState extends State<HairCare> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
-                                    document['organizationName'],
+                                    document['fullName'],
                                     style: TextStyle(fontSize: 24.0),
                                   ),
                                 ),
@@ -81,8 +83,7 @@ class _HairCareState extends State<HairCare> {
                                                 builder: (context) => Details(
                                                       documentid:
                                                           document.documentID,
-                                                      collectionName:
-                                                          'Organizationinfo',
+                                                      collectionName: 'details',
                                                       comments:
                                                           document['comments'],
                                                     )),

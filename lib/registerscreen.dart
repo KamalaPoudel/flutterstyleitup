@@ -30,8 +30,11 @@ class _RegistrationscreenState extends State<Registrationscreen> {
   }
 
   Future<String> createUserDb() async {
-    Firestore.instance.collection('users').document(email.text).setData({
-      'email': email.text,
+    Firestore.instance
+        .collection('users')
+        .document(email.text.toLowerCase())
+        .setData({
+      'email': email.text.toLowerCase(),
       'fullName': fullName.text,
       'address': address.text,
       'phoneNumber': phoneNumber.text,
