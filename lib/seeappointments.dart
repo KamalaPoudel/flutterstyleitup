@@ -109,8 +109,7 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
                                           onPressed: () async {
                                             await Firestore.instance
                                                 .collection('CustomerBooking')
-                                                .document(
-                                                    document['serviceDoc'])
+                                                .document(document.documentID)
                                                 .delete();
                                           },
                                           child: Text("Delete"),

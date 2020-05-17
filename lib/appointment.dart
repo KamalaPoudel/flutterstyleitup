@@ -138,6 +138,23 @@ class _myAppointmentState extends State<myAppointment> {
                                           .collection('CustomerBooking')
                                           .document(document.documentID)
                                           .delete();
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Appointment Detail"),
+                                              content: Text(
+                                                  "You have deleted an appointment"),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text("OKAY"),
+                                                ),
+                                              ],
+                                            );
+                                          });
                                     },
                                     child: Text("Delete Booking"),
                                     color: Colors.amber,

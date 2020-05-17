@@ -6,10 +6,12 @@ import 'package:style_it_up/haircare.dart';
 import 'comments.dart';
 
 class Details extends StatefulWidget {
+  String categoryId;
   String documentid;
   String collectionName;
   List comments;
-  Details({this.documentid, this.collectionName, this.comments});
+  Details(
+      {this.documentid, this.collectionName, this.comments, this.categoryId});
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -57,7 +59,10 @@ class _DetailsState extends State<Details> {
                   end: Alignment.bottomRight,
                   colors: [Colors.red[300], Colors.yellow])),
           child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('services').snapshots(),
+              stream: Firestore.instance
+                  .collection('services')
+                  .where("categoryId", isEqualTo: widget.categoryId)
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError)

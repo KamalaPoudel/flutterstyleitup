@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class OrgUploadInfo extends StatefulWidget {
+  String categoryId;
+  OrgUploadInfo({this.categoryId});
   @override
   _OrgUploadInfoState createState() => _OrgUploadInfoState();
 }
@@ -100,6 +102,7 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     .collection('services')
                     .document(serviceId)
                     .setData({
+                  "categoryId": widget.categoryId,
                   "serviceId": serviceId,
                   "serviceName": serviceName.text,
                   "orgEmail": userEmail,
@@ -169,11 +172,15 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                                 );
                               } else if (serviceSnapshot.connectionState ==
                                   ConnectionState.done) {
-                                return ListTile(
-                                  title:
-                                      Text(serviceSnapshot.data["serviceName"]),
-                                  trailing: Text(serviceSnapshot.data["price"]),
-                                );
+                                return serviceSnapshot.data["categoryId"] ==
+                                        widget.categoryId
+                                    ? ListTile(
+                                        title: Text(serviceSnapshot
+                                            .data["serviceName"]),
+                                        trailing:
+                                            Text(serviceSnapshot.data["price"]),
+                                      )
+                                    : Container();
                               }
                               return Text("Nodata");
                             });

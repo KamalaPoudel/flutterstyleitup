@@ -5,6 +5,8 @@ import 'package:style_it_up/home.dart';
 import 'details.dart';
 
 class HairCare extends StatefulWidget {
+  String categoryId;
+  HairCare({this.categoryId});
   @override
   _HairCareState createState() => _HairCareState();
 }
@@ -81,6 +83,8 @@ class _HairCareState extends State<HairCare> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => Details(
+                                                      categoryId:
+                                                          widget.categoryId,
                                                       documentid:
                                                           document.documentID,
                                                       collectionName: 'details',
