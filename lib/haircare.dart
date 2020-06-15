@@ -90,6 +90,8 @@ class _HairCareState extends State<HairCare> {
                                                       collectionName: 'details',
                                                       comments:
                                                           document['comments'],
+                                                      orgEmail:
+                                                          document["email"],
                                                     )),
                                           );
                                         },

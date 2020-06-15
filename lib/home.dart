@@ -69,7 +69,7 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => myAppointment()));
+                    MaterialPageRoute(builder: (context) => MyAppointment()));
               },
             ),
             ListTile(

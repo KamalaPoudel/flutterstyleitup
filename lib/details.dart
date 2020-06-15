@@ -10,8 +10,13 @@ class Details extends StatefulWidget {
   String documentid;
   String collectionName;
   List comments;
+  String orgEmail;
   Details(
-      {this.documentid, this.collectionName, this.comments, this.categoryId});
+      {this.documentid,
+      this.collectionName,
+      this.comments,
+      this.categoryId,
+      this.orgEmail});
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -29,9 +34,7 @@ class _DetailsState extends State<Details> {
         leading: InkWell(
             onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HairCare()),
-              );
+                  context, MaterialPageRoute(builder: (context) => HairCare()));
             },
             child: Icon(Icons.chevron_left)),
         actions: <Widget>[
@@ -62,6 +65,7 @@ class _DetailsState extends State<Details> {
               stream: Firestore.instance
                   .collection('services')
                   .where("categoryId", isEqualTo: widget.categoryId)
+                  .where("orgEmail", isEqualTo: widget.orgEmail)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {

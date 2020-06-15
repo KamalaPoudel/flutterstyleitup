@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class myAppointment extends StatefulWidget {
+class MyAppointment extends StatefulWidget {
   @override
-  _myAppointmentState createState() => _myAppointmentState();
+  _MyAppointmentState createState() => _MyAppointmentState();
 }
 
-class _myAppointmentState extends State<myAppointment> {
+class _MyAppointmentState extends State<MyAppointment> {
   String userEmail;
 
   @override
