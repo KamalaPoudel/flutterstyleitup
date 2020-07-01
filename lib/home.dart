@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/appointment.dart';
 import 'package:style_it_up/customerGallery.dart';
 import 'package:style_it_up/haircare.dart';
@@ -17,7 +19,7 @@ class _CustomerHomeState extends State<CustomerHome> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Home for customer"),
+        title: Text("Customer Homepage"),
       ),
       drawer: Drawer(
         child: ListView(
@@ -57,6 +59,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 'My Profile',
                 style: TextStyle(color: Colors.black, fontSize: 18.0),
               ),
+              leading: Icon(Icons.account_circle),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => myProfile()));
@@ -67,6 +70,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 'My Appointment',
                 style: TextStyle(color: Colors.black, fontSize: 18.0),
               ),
+              leading: Icon(Icons.calendar_today),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => MyAppointment()));
@@ -114,7 +118,8 @@ class _CustomerHomeState extends State<CustomerHome> {
               }
               return GridView.builder(
                 primary: false,
-                padding: const EdgeInsets.all(20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
@@ -122,20 +127,30 @@ class _CustomerHomeState extends State<CustomerHome> {
                 ),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  return RaisedButton(
-                    onPressed: () {
+                  return InkWell(
+                    onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => HairCare(
                                 categoryId: snapshot.data.documents[index]
                                     ["categoryId"],
                               )));
                     },
-                    child: Text(
-                      snapshot.data.documents[index]["categoryName"],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white70,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider(
+                                snapshot.data.documents[index]['image'])),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        snapshot.data.documents[index]["categoryName"],
+                        style: GoogleFonts.notoSans(
+                            fontSize: 20.0, color: Colors.white),
+                      ),
                     ),
-                    color: Colors.white70,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
                   );
                 },
               );

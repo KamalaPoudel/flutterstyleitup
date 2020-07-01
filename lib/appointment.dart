@@ -32,7 +32,7 @@ class _MyAppointmentState extends State<MyAppointment> {
     final DateTime _seldate = await showDatePicker(
         context: context,
         initialDate: _currentdate,
-        firstDate: DateTime(2019),
+        firstDate: DateTime(2020),
         lastDate: DateTime(2050),
         builder: (context, child) {
           return SingleChildScrollView(
@@ -63,6 +63,9 @@ class _MyAppointmentState extends State<MyAppointment> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError)
                 return new Text('Error: ${snapshot.error}');
+              if (snapshot.data.documents.length <= 0)
+                return Center(
+                    child: Text("You don't have any upcoming appointment"));
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return new Text('Loading...');
@@ -113,10 +116,11 @@ class _MyAppointmentState extends State<MyAppointment> {
                                   height: 45,
                                   child: RaisedButton(
                                     onPressed: () async {
+                                      await _selectdate(context);
                                       await Firestore.instance
                                           .collection('CustomerBooking')
                                           .document(document.documentID)
-                                          .updateData({'date': _formattedate});
+                                          .updateData({'date': _currentdate});
                                     },
                                     child: Text("Change Date"),
                                     color: Colors.amber,

@@ -76,6 +76,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  // String valdateFullName(String value){
+  //   Pattern pattern =
+  // }
+
+  String validatePhoneNumber(String value) {
+    Pattern pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
+  }
+
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -145,7 +160,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     decoration:
                                         InputDecoration(hintText: "Address"),
                                   ),
-                                  TextField(
+                                  TextFormField(
+                                    validator: validatePhoneNumber,
+                                    onSaved: (value) =>
+                                        phoneNumber = value.trim(),
                                     decoration: InputDecoration(
                                         hintText: "Phone Number"),
                                   ),
@@ -156,6 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         InputDecoration(hintText: "Email"),
                                   ),
                                   TextFormField(
+                                    validator: validatePassword,
                                     onSaved: (value) => password = value.trim(),
                                     obscureText: _obscureText,
                                     decoration: InputDecoration(
