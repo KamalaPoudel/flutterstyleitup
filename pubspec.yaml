@@ -36,6 +36,9 @@ dependencies:
   uuid: ^2.0.4
   fluttertoast: ^4.0.1
   font_awesome_flutter: ^8.8.1
+  google_maps_flutter: ^0.5.26
+  place_picker: ^0.9.13
+  geolocator: ^5.3.1
 
 dev_dependencies:
   flutter_test:

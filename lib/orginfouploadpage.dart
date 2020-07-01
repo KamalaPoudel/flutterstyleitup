@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class OrgUploadInfo extends StatefulWidget {
+  final LatLng locationCoord;
+
   String categoryId;
-  OrgUploadInfo({this.categoryId});
+  OrgUploadInfo({this.categoryId, this.locationCoord});
   @override
   _OrgUploadInfoState createState() => _OrgUploadInfoState();
 }
