@@ -134,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Image.asset("icon.png"),
+                              child: Image.asset("lib/assets/icon.png"),
                             ),
                             Text("Registration"),
                             Padding(

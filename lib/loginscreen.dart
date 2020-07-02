@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             SingleChildScrollView(
               child: Container(
-                height: 600.0,
+                height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset("icon.png"),
+                          child: Image.asset("lib/assets/icon.png"),
                         ),
                         Text(
                           "Login",
