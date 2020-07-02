@@ -81,6 +81,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 'Gallery',
                 style: TextStyle(color: Colors.black, fontSize: 18.0),
               ),
+              leading: Icon(Icons.camera),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CustomerGallery()));
@@ -91,6 +92,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 'Log Out',
                 style: TextStyle(color: Colors.black, fontSize: 18.0),
               ),
+              leading: Icon(Icons.arrow_back),
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.of(context).pushNamed('/Welcomepage');
