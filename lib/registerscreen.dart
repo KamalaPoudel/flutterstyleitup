@@ -48,26 +48,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = true;
       });
       try {
-        Future<String> register() async {
-          FirebaseUser user = (await FirebaseAuth.instance
-                  .createUserWithEmailAndPassword(
-                      email: email, password: password))
-              .user;
-          print(user.uid);
-          Firestore.instance
-              .collection('users')
-              .document(email.toLowerCase())
-              .setData({
-            'email': email.toLowerCase(),
-            'fullName': fullName,
-            'address': address,
-            'phoneNumber': phoneNumber,
-            'userType': group
-          });
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginScreen()));
-          return user.uid;
-        }
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: email, password: password))
+            .user;
+        print(user.uid);
+        Firestore.instance
+            .collection('users')
+            .document(email.toLowerCase())
+            .setData({
+          'email': email.toLowerCase(),
+          'fullName': fullName,
+          'address': address,
+          'phoneNumber': phoneNumber,
+          'userType': group
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
         setState(() {
           isLoading = false;
