@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -105,6 +106,8 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     .collection('services')
                     .document(serviceId)
                     .setData({
+                  "Location": GeoPoint(widget.locationCoord.latitude,
+                      widget.locationCoord.longitude),
                   "categoryId": widget.categoryId,
                   "serviceId": serviceId,
                   "serviceName": serviceName.text,
@@ -125,72 +128,82 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Upload Information"),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.add), onPressed: () => _showDialog())
-          ],
-        ),
-        body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.green, Colors.blue])),
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection('users')
-                  .document(userEmail)
-                  .collection("services")
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError)
-                  return new Text('Error: ${snapshot.error}');
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Upload Information"),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.add), onPressed: () => _showDialog())
+        ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.green, Colors.blue])),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection('users')
+              .document(userEmail)
+              .collection("services")
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) return new Text('Error: ');
 
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return new Text('Loading...');
-                  default:
-                    return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (BuildContext context, index) {
-                        var service = snapshot.data.documents[index];
-                        return FutureBuilder(
-                            future: referenceData(service['serviceDoc']),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<dynamic> serviceSnapshot) {
-                              if (serviceSnapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              } else if (serviceSnapshot.connectionState ==
-                                  ConnectionState.active) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else if (serviceSnapshot.connectionState ==
-                                  ConnectionState.done) {
-                                return serviceSnapshot.data["categoryId"] ==
-                                        widget.categoryId
-                                    ? ListTile(
-                                        title: Text(serviceSnapshot
-                                            .data["serviceName"]),
-                                        trailing:
-                                            Text(serviceSnapshot.data["price"]),
-                                      )
-                                    : Container();
-                              }
-                              return Text("Nodata");
-                            });
-                      },
-                    );
-                }
-              },
-            )));
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return new Text('Loading...');
+              default:
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var service = snapshot.data.documents[index];
+                    return FutureBuilder(
+                        future: referenceData(service['serviceDoc']),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> serviceSnapshot) {
+                          if (!snapshot.hasData) {
+                            return Text("No Data");
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.active) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            return serviceSnapshot.data["categoryId"] ==
+                                    widget.categoryId
+                                ? ListTile(
+                                    title: Text(
+                                      serviceSnapshot.data["serviceName"],
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20.0, color: Colors.black),
+                                    ),
+                                    trailing: Text(
+                                      serviceSnapshot.data["price"],
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20.0, color: Colors.black),
+                                    ),
+                                  )
+                                : Container();
+                          }
+                          return Text("Nodata");
+                        });
+                  },
+                );
+            }
+          },
+        ),
+      ),
+    );
   }
 }

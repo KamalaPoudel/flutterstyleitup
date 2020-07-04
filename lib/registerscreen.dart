@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/loginscreen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -66,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } catch (e) {
+        print(e.message);
         setState(() {
           isLoading = false;
         });
@@ -113,7 +115,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Stack(
           children: <Widget>[
             Container(
-              //height: 600.0,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -133,57 +136,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset("lib/assets/icon.png"),
                             ),
-                            Text("Registration"),
+                            Text(
+                              "Registration",
+                              style: GoogleFonts.notoSans(
+                                  fontSize: 20.0, color: Colors.black87),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  TextField(
-                                    onTap: () {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              "Please enter organization name if you are registering as organization",
-                                          toastLength: Toast.LENGTH_LONG,
-                                          backgroundColor: Colors.red,
-                                          gravity: ToastGravity.TOP,
-                                          textColor: Colors.white);
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: "Full Name",
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        3.0, 15.0, 3.0, 15.0),
+                                    child: TextField(
+                                      onTap: () {
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                "Please enter organization name if you are registering as organization",
+                                            toastLength: Toast.LENGTH_LONG,
+                                            backgroundColor: Colors.red,
+                                            gravity: ToastGravity.TOP,
+                                            textColor: Colors.white);
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: "Full Name",
+                                        hintStyle: GoogleFonts.notoSans(
+                                            color: Colors.black87),
+                                      ),
                                     ),
                                   ),
-                                  TextField(
-                                    decoration:
-                                        InputDecoration(hintText: "Address"),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        3.0, 15.0, 3.0, 15.0),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: "Address",
+                                        hintStyle: GoogleFonts.notoSans(
+                                            color: Colors.black87),
+                                      ),
+                                    ),
                                   ),
-                                  TextFormField(
-                                    validator: validatePhoneNumber,
-                                    onSaved: (value) =>
-                                        phoneNumber = value.trim(),
-                                    decoration: InputDecoration(
-                                        hintText: "Phone Number"),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        3.0, 15.0, 3.0, 15.0),
+                                    child: TextFormField(
+                                      validator: validatePhoneNumber,
+                                      onSaved: (value) =>
+                                          phoneNumber = value.trim(),
+                                      decoration: InputDecoration(
+                                        hintText: "Phone Number",
+                                        hintStyle: GoogleFonts.notoSans(
+                                            color: Colors.black87),
+                                      ),
+                                    ),
                                   ),
-                                  TextFormField(
-                                    validator: validateEmail,
-                                    onSaved: (value) => email = value.trim(),
-                                    decoration:
-                                        InputDecoration(hintText: "Email"),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        3.0, 15.0, 3.0, 15.0),
+                                    child: TextFormField(
+                                      validator: validateEmail,
+                                      onSaved: (value) => email = value.trim(),
+                                      decoration: InputDecoration(
+                                        hintText: "Email",
+                                        hintStyle: GoogleFonts.notoSans(
+                                            color: Colors.black87),
+                                      ),
+                                    ),
                                   ),
-                                  TextFormField(
-                                    validator: validatePassword,
-                                    onSaved: (value) => password = value.trim(),
-                                    obscureText: _obscureText,
-                                    decoration: InputDecoration(
-                                      hintText: "Password",
-                                      suffixIcon: IconButton(
-                                          icon: FaIcon(
-                                            _obscureText
-                                                ? FontAwesomeIcons.eyeSlash
-                                                : FontAwesomeIcons.eye,
-                                            color: Colors.deepOrange,
-                                          ),
-                                          onPressed: _toggle),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        3.0, 15.0, 3.0, 15.0),
+                                    child: TextFormField(
+                                      validator: validatePassword,
+                                      onSaved: (value) =>
+                                          password = value.trim(),
+                                      obscureText: _obscureText,
+                                      decoration: InputDecoration(
+                                        hintText: "Password",
+                                        hintStyle: GoogleFonts.notoSans(
+                                            color: Colors.black87),
+                                        suffixIcon: IconButton(
+                                            icon: FaIcon(
+                                              _obscureText
+                                                  ? FontAwesomeIcons.eyeSlash
+                                                  : FontAwesomeIcons.eye,
+                                              color: Colors.deepOrange,
+                                            ),
+                                            onPressed: _toggle),
+                                      ),
                                     ),
                                   ),
                                   Row(
@@ -202,7 +243,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               });
                                             },
                                           ),
-                                          Text("Customer"),
+                                          Text(
+                                            "Customer",
+                                            style: GoogleFonts.notoSans(
+                                                color: Colors.black87),
+                                          ),
                                         ],
                                       ),
                                       Column(
@@ -217,7 +262,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               });
                                             },
                                           ),
-                                          Text("Organization"),
+                                          Text(
+                                            "Organization",
+                                            style: GoogleFonts.notoSans(
+                                                color: Colors.black87),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -228,7 +277,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 20),
+                          padding: const EdgeInsets.only(top: 23),
                           child: RaisedButton(
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
@@ -238,11 +287,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Colors.pinkAccent,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Already have an account? Login!"),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 13.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Already have an account? Login!"),
+                          ),
                         ),
                       ],
                     ),

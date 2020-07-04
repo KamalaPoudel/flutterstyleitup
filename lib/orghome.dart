@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/gallery.dart';
 import 'package:style_it_up/orginfouploadpage.dart';
+import 'package:style_it_up/placePicker.dart';
 import 'package:style_it_up/seeappointments.dart';
 
 class OrgHome extends StatefulWidget {
@@ -18,65 +21,70 @@ class _OrgHomeState extends State<OrgHome> {
         centerTitle: true,
         title: Text("Organization Home"),
         leading: IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(Icons.arrow_back),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.of(context).pushNamed('/Welcomepage');
             }),
       ),
       body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.green, Colors.blue])),
-          child: Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Gallery()));
-                },
-                child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 10, left: 0),
-                        height: 50,
-                        width: MediaQuery.of(context).size.width / 2.4,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white70),
-                        child: Text('Gallery'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SeeAppointments()));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10, left: 0, right: 0),
-                          width: MediaQuery.of(context).size.width / 2.4,
-                          height: 50,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white70),
-                          child: Text('See Appointments'),
-                        ),
-                      ),
-                    ],
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.green, Colors.blue])),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Gallery()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 20.0, top: 20.0, right: 5.0, bottom: 20.0),
+                      height: 80,
+                      width: MediaQuery.of(context).size.width / 2.2,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white70),
+                      child: Text('Gallery'),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SeeAppointments()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 5.0, top: 20.0, right: 20.0, bottom: 20.0),
+                      width: MediaQuery.of(context).size.width / 2.2,
+                      height: 80,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white70),
+                      child: Text('See Appointments'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 8.0, 5.0, 5.0),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: Firestore.instance
                         .collection('ServiceCategory')
@@ -91,7 +99,7 @@ class _OrgHomeState extends State<OrgHome> {
                       }
                       return GridView.builder(
                         primary: false,
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20.0),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
@@ -99,27 +107,57 @@ class _OrgHomeState extends State<OrgHome> {
                         ),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
-                          return RaisedButton(
-                            onPressed: () {
+                          return InkWell(
+                            onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => OrgUploadInfo(
                                         categoryId: snapshot.data
                                             .documents[index]["categoryId"],
                                       )));
                             },
-                            child: Text(
-                              snapshot.data.documents[index]["categoryName"],
+                            child: Container(
+                              // height: MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white70,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(snapshot
+                                        .data.documents[index]['image'])),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                snapshot.data.documents[index]["categoryName"],
+                                style: GoogleFonts.notoSans(
+                                    fontSize: 30.0, color: Colors.white),
+                              ),
                             ),
-                            color: Colors.white70,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
                           );
                         },
                       );
                     }),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: InkWell(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => PlacePicker()));
+        },
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(30)),
+          height: 80.0,
+          width: 80.0,
+          child: Icon(
+            Icons.add,
+            size: 50,
+          ),
+        ),
+      ),
     );
   }
 }

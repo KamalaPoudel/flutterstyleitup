@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+//import 'package:place_picker/widgets/place_picker.dart';
 import 'package:style_it_up/comments.dart';
 import 'package:style_it_up/customerbooking.dart';
 import 'package:style_it_up/details.dart';
@@ -76,6 +77,7 @@ class _MyAppState extends State<MyApp> {
         '/seeAppointments': (BuildContext context) => SeeAppointments(),
         '/commentPage': (BuildContext context) => CommentPage(),
         '/galleryPage': (BuildContext context) => Gallery(),
+        // '/placePicker': (BuildContext context) => PlacePicker(),
       },
     );
   }

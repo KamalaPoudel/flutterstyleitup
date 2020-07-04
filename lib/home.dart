@@ -30,78 +30,116 @@ class _CustomerHomeState extends State<CustomerHome> {
                   gradient: LinearGradient(
                       colors: <Color>[Colors.deepOrange, Colors.orangeAccent])),
               child: Container(
+                  height: 200,
                   child: Column(
-                children: <Widget>[
-                  Material(
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    elevation: 10,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "icon.png",
-                        width: 80,
-                        height: 80,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Expanded(
+                        child: Material(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(110.0)),
+                          elevation: 10,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              "lib/assets/icon.png",
+                              width: 80,
+                              height: 90,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'STYLEitUP',
+                            style: GoogleFonts.notoSans(
+                                color: Colors.white, fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+            Container(
+              height: 70,
+              child: Align(
+                alignment: Alignment.center,
+                child: ListTile(
+                  title: Text(
+                    'My Profile',
+                    style: GoogleFonts.notoSans(
+                        fontSize: 18.0, color: Colors.black),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'STYLEitUP',
-                      style: TextStyle(color: Colors.white, fontSize: 20.0),
-                    ),
+                  leading: Icon(Icons.account_circle),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => myProfile()));
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: 70,
+              child: Align(
+                child: ListTile(
+                  title: Text(
+                    'My Appointment',
+                    style: GoogleFonts.notoSans(
+                        fontSize: 18.0, color: Colors.black),
                   ),
-                ],
-              )),
-            ),
-            ListTile(
-              title: Text(
-                'My Profile',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  leading: Icon(Icons.calendar_today),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyAppointment()));
+                  },
+                ),
               ),
-              leading: Icon(Icons.account_circle),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => myProfile()));
-              },
             ),
-            ListTile(
-              title: Text(
-                'My Appointment',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
+            Container(
+              height: 70,
+              child: Align(
+                child: ListTile(
+                  title: Text(
+                    'Gallery',
+                    style: GoogleFonts.notoSans(
+                        fontSize: 18.0, color: Colors.black),
+                  ),
+                  leading: Icon(Icons.camera),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerGallery()));
+                  },
+                ),
               ),
-              leading: Icon(Icons.calendar_today),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyAppointment()));
-              },
             ),
-            ListTile(
-              title: Text(
-                'Gallery',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
+            Container(
+              height: 70,
+              child: Align(
+                child: ListTile(
+                  title: Text(
+                    'Log Out',
+                    style: GoogleFonts.notoSans(
+                        fontSize: 18.0, color: Colors.black),
+                  ),
+                  leading: Icon(Icons.arrow_back),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamed('/Welcomepage');
+                  },
+                ),
               ),
-              leading: Icon(Icons.camera),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CustomerGallery()));
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Log Out',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
-              ),
-              leading: Icon(Icons.arrow_back),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushNamed('/Welcomepage');
-              },
             ),
           ],
         ),
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -138,6 +176,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                               )));
                     },
                     child: Container(
+                      // height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white70,
@@ -150,7 +189,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                       child: Text(
                         snapshot.data.documents[index]["categoryName"],
                         style: GoogleFonts.notoSans(
-                            fontSize: 20.0, color: Colors.white),
+                            fontSize: 30.0, color: Colors.white),
                       ),
                     ),
                   );
