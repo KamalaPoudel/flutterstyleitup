@@ -110,7 +110,7 @@ class _OrgHomeState extends State<OrgHome> {
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => OrgUploadInfo(
+                                  builder: (context) => PlacePicker(
                                         categoryId: snapshot.data
                                             .documents[index]["categoryId"],
                                       )));
@@ -139,23 +139,6 @@ class _OrgHomeState extends State<OrgHome> {
               ),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: InkWell(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PlacePicker()));
-        },
-        child: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(30)),
-          height: 80.0,
-          width: 80.0,
-          child: Icon(
-            Icons.add,
-            size: 50,
-          ),
         ),
       ),
     );

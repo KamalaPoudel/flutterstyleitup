@@ -101,6 +101,7 @@ class _PlacePickerState extends State<PlacePicker> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => OrgUploadInfo(
+                              categoryId: widget.categoryId,
                               locationCoord: LatLng(
                                   Markers.first.position.latitude,
                                   Markers.first.position.longitude),
