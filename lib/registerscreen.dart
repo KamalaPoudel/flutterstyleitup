@@ -21,8 +21,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String address;
   bool isLoading = false;
   String phoneNumber;
-  // TextEditingController fullName = TextEditingController();
-  // TextEditingController address = TextEditingController();
+  //TextEditingController fullName = TextEditingController();
+  //TextEditingController address = TextEditingController();
   // TextEditingController phoneNumber = TextEditingController();
   // TextEditingController email = TextEditingController();
   // TextEditingController password = TextEditingController();
@@ -150,7 +150,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         3.0, 15.0, 3.0, 15.0),
-                                    child: TextField(
+                                    child: TextFormField(
+                                      onSaved: (value) =>
+                                          fullName = value.trim(),
+                                      //controller: fullName,
                                       onTap: () {
                                         Fluttertoast.showToast(
                                             msg:
@@ -170,7 +173,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         3.0, 15.0, 3.0, 15.0),
-                                    child: TextField(
+                                    child: TextFormField(
+                                      //controller: address,
+                                      onSaved: (value) =>
+                                          address = value.trim(),
                                       decoration: InputDecoration(
                                         hintText: "Address",
                                         hintStyle: GoogleFonts.notoSans(

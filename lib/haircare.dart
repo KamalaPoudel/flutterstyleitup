@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/home.dart';
 
 import 'details.dart';
@@ -63,10 +64,26 @@ class _HairCareState extends State<HairCare> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
                                   child: Text(
-                                    document['fullName'],
-                                    style: TextStyle(fontSize: 24.0),
+                                    document['fullName'] + " " + ":",
+                                    style: GoogleFonts.notoSans(
+                                        fontSize: 24.0, color: Colors.black87),
                                   ),
                                 ),
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 0.0),
+                                      child: Text(
+                                        document['address'],
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 14.0,
+                                            color: Colors.black87),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Column(
                                 children: <Widget>[
@@ -95,7 +112,12 @@ class _HairCareState extends State<HairCare> {
                                                     )),
                                           );
                                         },
-                                        child: Text("View Details"),
+                                        child: Text(
+                                          "View Details",
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 18.0,
+                                              color: Colors.black87),
+                                        ),
                                         color: Colors.amber,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -110,7 +132,12 @@ class _HairCareState extends State<HairCare> {
                                       height: 50,
                                       child: RaisedButton(
                                         onPressed: () {},
-                                        child: Text("Show in Map"),
+                                        child: Text(
+                                          "Show in Map",
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 18.0,
+                                              color: Colors.black87),
+                                        ),
                                         color: Colors.amber,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -128,75 +155,7 @@ class _HairCareState extends State<HairCare> {
                   );
               }
             },
-          )
-
-          // ListView.builder(
-          //   itemCount: 10,
-          //   itemBuilder: (context, index) {
-          //     return Padding(
-          //       padding: const EdgeInsets.all(16.0),
-          //       child: Container(
-          //         child: new FittedBox(
-          //           child: Material(
-          //             color: Colors.white,
-          //             elevation: 20.0,
-          //             borderRadius: BorderRadius.circular(24.0),
-          //             shadowColor: Color(0x802196F3),
-          //             child: Row(
-          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //               children: <Widget>[
-          //                 Container(
-          //                   child: Padding(
-          //                     padding: const EdgeInsets.only(left: 15.0),
-          //                     child: Text(
-          //                       "Organization Name",
-          //                       style: TextStyle(fontSize: 24.0),
-          //                     ),
-          //                   ),
-          //                 ),
-          //                 Column(
-          //                   children: <Widget>[
-          //                     Padding(
-          //                       padding: const EdgeInsets.only(
-          //                           top: 8, right: 8, bottom: 4),
-          //                       child: Container(
-          //                         height: 50,
-          //                         child: RaisedButton(
-          //                           onPressed: () {
-          //                             Navigator.of(context).pushNamed('/details');
-          //                           },
-          //                           child: Text("View Details"),
-          //                           color: Colors.amber,
-          //                           shape: RoundedRectangleBorder(
-          //                               borderRadius: BorderRadius.circular(15.0)),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                     Padding(
-          //                       padding: const EdgeInsets.only(
-          //                           top: 4, right: 8, bottom: 8),
-          //                       child: Container(
-          //                         height: 50,
-          //                         child: RaisedButton(
-          //                           onPressed: () {},
-          //                           child: Text("Show in Map"),
-          //                           color: Colors.amber,
-          //                           shape: RoundedRectangleBorder(
-          //                               borderRadius: BorderRadius.circular(15.0)),
-          //                         ),
-          //                       ),
-          //                     ),
-          //                   ],
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
-          ),
+          )),
     );
   }
 }

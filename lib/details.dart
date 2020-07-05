@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/customerbooking.dart';
 import 'package:style_it_up/haircare.dart';
 
@@ -91,29 +92,45 @@ class _DetailsState extends State<Details> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 15.0),
                                     child: Text(
-                                      document['serviceName'],
-                                      style: TextStyle(fontSize: 24.0),
+                                      document['serviceName'] +
+                                          "\n" +
+                                          "Service Time:" +
+                                          document['estimatedTime'],
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 24.0,
+                                          color: Colors.black87),
                                     ),
                                   ),
                                 ),
+                                // Container(
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.only(left: 15.0),
+                                //     child: Text(
+                                //       document['estimatedTime'],
+                                //       style: GoogleFonts.notoSans(
+                                //           fontSize: 24.0,
+                                //           color: Colors.black87),
+                                //     ),
+                                //   ),
+                                // ),
                                 Column(
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 15, right: 8, bottom: 1),
                                       child: Container(
-                                        height: 20,
+                                        height: 25,
                                         child: Text(
-                                          document['price'],
+                                          "Price:" + " " + document['price'],
                                           style: TextStyle(fontSize: 18.0),
                                         ),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 4, right: 8, bottom: 8),
+                                          top: 15, right: 8, bottom: 8),
                                       child: Container(
-                                        height: 30,
+                                        height: 40,
                                         child: RaisedButton(
                                           onPressed: () {
                                             Navigator.of(context).push(
@@ -127,7 +144,7 @@ class _DetailsState extends State<Details> {
                                           child: Text(
                                             "Book Now",
                                             style: TextStyle(
-                                                fontSize: 9.0,
+                                                fontSize: 14.0,
                                                 color: Colors.white),
                                           ),
                                           color: Colors.blueAccent,
