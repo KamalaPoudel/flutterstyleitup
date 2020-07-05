@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:style_it_up/home.dart';
 
 import 'details.dart';
@@ -131,7 +133,18 @@ class _HairCareState extends State<HairCare> {
                                     child: Container(
                                       height: 50,
                                       child: RaisedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    saloonLocation(
+                                                        email:
+                                                            document["email"],
+                                                        fullName: document[
+                                                            "fullName"])),
+                                          );
+                                        },
                                         child: Text(
                                           "Show in Map",
                                           style: GoogleFonts.notoSans(
@@ -156,6 +169,127 @@ class _HairCareState extends State<HairCare> {
               }
             },
           )),
+    );
+  }
+}
+
+class saloonLocation extends StatefulWidget {
+  String email;
+  String fullName;
+  saloonLocation({this.email, this.fullName});
+  @override
+  _saloonLocationState createState() => _saloonLocationState();
+}
+
+class _saloonLocationState extends State<saloonLocation> {
+  GoogleMapController _controller;
+  String searchAddr;
+  List<Marker> Markers = <Marker>[];
+  double longitude;
+  double latitude;
+  void mapCreated(controller) {
+    setState(() {
+      _controller = controller;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
+  Future<LatLng> getLocation() async {
+    var docRef = Firestore.instance.collection("users").document(widget.email);
+    docRef.get().then((doc) {
+      setState(() {
+        longitude = doc.data['location'].longitude;
+        latitude = doc.data['location'].latitude;
+        print(longitude);
+        Markers.add(Marker(
+            icon: BitmapDescriptor.defaultMarker,
+            markerId: MarkerId("1"),
+            draggable: true,
+            infoWindow: InfoWindow(title: widget.fullName),
+            position: LatLng(latitude, longitude)));
+      });
+    });
+  }
+
+  searchAndNavigate() {
+    Geolocator().placemarkFromAddress(searchAddr).then((result) {
+      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target:
+              LatLng(result[0].position.latitude, result[0].position.longitude),
+          zoom: 15.0)));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            (latitude == null && longitude == null)
+                ? Container()
+                : Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(latitude, longitude), zoom: 17.0),
+                      markers: Set.from(Markers),
+                      myLocationButtonEnabled: true,
+                      rotateGesturesEnabled: true,
+                      tiltGesturesEnabled: true,
+                      compassEnabled: true,
+                      myLocationEnabled: true,
+                      onMapCreated: mapCreated,
+                      zoomControlsEnabled: true,
+                      zoomGesturesEnabled: true,
+                      mapType: MapType.normal,
+                      onTap: (position) {},
+                    ),
+                  ),
+            Positioned(
+              top: 30.0,
+              right: 15.0,
+              left: 15.0,
+              child: Container(
+                height: 50.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white),
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: "Search Place",
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: searchAndNavigate,
+                        iconSize: 30.0,
+                      )),
+                  onChanged: (val) {
+                    setState(() {
+                      searchAddr = val;
+                    });
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
