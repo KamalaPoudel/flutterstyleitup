@@ -31,6 +31,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String userEmail;
   String loggedInUserType;
+  GeoPoint location;
   @override
   void initState() {
     super.initState();
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
         .then((DocumentSnapshot ds) {
       setState(() {
         loggedInUserType = ds.data['userType'];
+        location = ds.data['location'];
       });
       // use ds as a snapshot
       print("User type:- " + loggedInUserType);

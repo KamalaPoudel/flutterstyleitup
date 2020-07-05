@@ -6,10 +6,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class OrgUploadInfo extends StatefulWidget {
-  final LatLng locationCoord;
+  final GeoPoint location;
 
   String categoryId;
-  OrgUploadInfo({this.categoryId, this.locationCoord});
+  OrgUploadInfo({this.categoryId, this.location});
   @override
   _OrgUploadInfoState createState() => _OrgUploadInfoState();
 }
@@ -106,8 +106,8 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     .collection('services')
                     .document(serviceId)
                     .setData({
-                  "Location": GeoPoint(widget.locationCoord.latitude,
-                      widget.locationCoord.longitude),
+                  "Location": GeoPoint(
+                      widget.location.latitude, widget.location.longitude),
                   "categoryId": widget.categoryId,
                   "serviceId": serviceId,
                   "serviceName": serviceName.text,
@@ -141,66 +141,66 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [Colors.green, Colors.blue])),
-        // child: StreamBuilder<QuerySnapshot>(
-        //   stream: Firestore.instance
-        //       .collection('users')
-        //       .document(userEmail)
-        //       .collection("services")
-        //       .snapshots(),
-        //   builder:
-        //       (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        //     switch (snapshot.connectionState) {
-        //       case ConnectionState.waiting:
-        //         return new Text('Loading...');
-        //       default:
-        //         return ListView.builder(
-        //           itemCount: snapshot.data.documents.length,
-        //           itemBuilder: (BuildContext context, index) {
-        //             var service = snapshot.data.documents[index];
-        //             return FutureBuilder(
-        //                 future: referenceData(service['serviceDoc']),
-        //                 builder: (BuildContext context,
-        //                     AsyncSnapshot<dynamic> serviceSnapshot) {
-        //                   if (!snapshot.hasData) {
-        //                     return Text("No Data");
-        //                   } else if (serviceSnapshot.connectionState ==
-        //                       ConnectionState.waiting) {
-        //                     return Center(
-        //                       child: Padding(
-        //                         padding: const EdgeInsets.all(8.0),
-        //                         child: CircularProgressIndicator(),
-        //                       ),
-        //                     );
-        //                   } else if (serviceSnapshot.connectionState ==
-        //                       ConnectionState.active) {
-        //                     return Center(
-        //                       child: CircularProgressIndicator(),
-        //                     );
-        //                   } else if (serviceSnapshot.connectionState ==
-        //                       ConnectionState.done) {
-        //                     return serviceSnapshot.data["categoryId"] ==
-        //                             widget.categoryId
-        //                         ? ListTile(
-        //                             title: Text(
-        //                               serviceSnapshot.data["serviceName"],
-        //                               style: GoogleFonts.notoSans(
-        //                                   fontSize: 20.0, color: Colors.black),
-        //                             ),
-        //                             trailing: Text(
-        //                               serviceSnapshot.data["price"],
-        //                               style: GoogleFonts.notoSans(
-        //                                   fontSize: 20.0, color: Colors.black),
-        //                             ),
-        //                           )
-        //                         : Container();
-        //                   }
-        //                   return Text("Nodata");
-        //                 });
-        //           },
-        //         );
-        //     }
-        //   },
-        // ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection('users')
+              .document(userEmail)
+              .collection("services")
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return new Text('Loading...');
+              default:
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var service = snapshot.data.documents[index];
+                    return FutureBuilder(
+                        future: referenceData(service['serviceDoc']),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> serviceSnapshot) {
+                          if (!snapshot.hasData) {
+                            return Text("No Data");
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.active) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (serviceSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            return serviceSnapshot.data["categoryId"] ==
+                                    widget.categoryId
+                                ? ListTile(
+                                    title: Text(
+                                      serviceSnapshot.data["serviceName"],
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20.0, color: Colors.black),
+                                    ),
+                                    trailing: Text(
+                                      serviceSnapshot.data["price"],
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20.0, color: Colors.black),
+                                    ),
+                                  )
+                                : Container();
+                          }
+                          return Text("Nodata");
+                        });
+                  },
+                );
+            }
+          },
+        ),
       ),
     );
   }

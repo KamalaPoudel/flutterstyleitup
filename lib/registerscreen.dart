@@ -62,7 +62,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'fullName': fullName,
           'address': address,
           'phoneNumber': phoneNumber,
-          'userType': group
+          'userType': group,
+          "location": GeoPoint(0, 0),
         });
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));

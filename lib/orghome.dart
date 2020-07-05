@@ -14,6 +14,33 @@ class OrgHome extends StatefulWidget {
 }
 
 class _OrgHomeState extends State<OrgHome> {
+  String userEmail;
+  GeoPoint location;
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseAuth.instance.currentUser().then((user) {
+      setState(() {
+        userEmail = user.email;
+        print(userEmail);
+      });
+      getData();
+    });
+    super.initState();
+  }
+
+  void getData() async {
+    await Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((DocumentSnapshot ds) {
+      setState(() {
+        location = ds.data['location'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +137,8 @@ class _OrgHomeState extends State<OrgHome> {
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PlacePicker(
+                                  builder: (context) => OrgUploadInfo(
+                                        location: location,
                                         categoryId: snapshot.data
                                             .documents[index]["categoryId"],
                                       )));
@@ -139,6 +167,25 @@ class _OrgHomeState extends State<OrgHome> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButton: InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => PlacePicker(
+                    userEmail: userEmail,
+                  )));
+        },
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(30)),
+          height: 60.0,
+          width: 60.0,
+          child: Icon(
+            Icons.location_on,
+            size: 30,
+          ),
         ),
       ),
     );

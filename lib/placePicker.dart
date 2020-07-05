@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:style_it_up/orginfouploadpage.dart';
 
 class PlacePicker extends StatefulWidget {
-  String categoryId;
-  PlacePicker({@required this.categoryId});
+  final String userEmail;
+  PlacePicker({this.userEmail});
   @override
   _PlacePickerState createState() => _PlacePickerState();
 }
@@ -93,20 +94,20 @@ class _PlacePickerState extends State<PlacePicker> {
           child: FloatingActionButton.extended(
             icon: Icon(Icons.location_on),
             label: Text("Set Location"),
-            onPressed: () {
+            onPressed: () async {
               if (Markers.length < 1) {
                 print("No Markers added");
               } else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OrgUploadInfo(
-                              categoryId: widget.categoryId,
-                              locationCoord: LatLng(
-                                  Markers.first.position.latitude,
-                                  Markers.first.position.longitude),
-                            )));
                 print(Markers.first.position);
+
+                await Firestore.instance
+                    .collection("users")
+                    .document(widget.userEmail)
+                    .updateData({
+                  "location": GeoPoint(Markers.first.position.latitude,
+                      Markers.first.position.longitude)
+                });
+                Navigator.of(context).pop();
               }
             },
           ),
