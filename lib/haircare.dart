@@ -62,23 +62,30 @@ class _HairCareState extends State<HairCare> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15.0),
-                                  child: Text(
-                                    document['fullName'] + " " + ":",
-                                    style: GoogleFonts.notoSans(
-                                        fontSize: 24.0, color: Colors.black87),
-                                  ),
-                                ),
-                              ),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 15.0),
                                       child: Text(
-                                        document['address'],
+                                        document['fullName'],
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 24.0,
+                                            color: Colors.black87),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 15.0),
+                                      child: Text(
+                                        "Address" +
+                                            ":" +
+                                            " " +
+                                            document['address'],
                                         style: GoogleFonts.notoSans(
                                             fontSize: 14.0,
                                             color: Colors.black87),

@@ -88,19 +88,36 @@ class _DetailsState extends State<Details> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Text(
-                                      document['serviceName'] +
-                                          "\n" +
-                                          "Service Time:" +
-                                          document['estimatedTime'],
-                                      style: GoogleFonts.notoSans(
-                                          fontSize: 24.0,
-                                          color: Colors.black87),
+                                Column(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Text(
+                                          document['serviceName'],
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 24.0,
+                                              color: Colors.black87),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Text(
+                                          "Service Time" +
+                                              ":" +
+                                              " " +
+                                              document['estimatedTime'],
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 14.0,
+                                              color: Colors.black87),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 // Container(
                                 //   child: Padding(

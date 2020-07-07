@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MyAppointment extends StatefulWidget {
@@ -52,7 +53,10 @@ class _MyAppointmentState extends State<MyAppointment> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("My Appointment"),
+          title: Text(
+            "Appointment Information",
+            style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.white),
+          ),
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance
@@ -74,9 +78,8 @@ class _MyAppointmentState extends State<MyAppointment> {
                     children: snapshot.data.documents
                         .map((DocumentSnapshot document) {
                       Timestamp bookingDate = document.data["date"];
-                      String formattedBookingDate =
-                          DateFormat('MMM dd,yyyy | hh:mm')
-                              .format(bookingDate.toDate());
+                      String formattedBookingDate = DateFormat('MMM dd,yyyy')
+                          .format(bookingDate.toDate());
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
@@ -90,21 +93,37 @@ class _MyAppointmentState extends State<MyAppointment> {
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                       15.0, 15.0, 0, 15.0),
-                                  child: Image.asset("icon.png"),
+                                  child: Image.asset("lib/assets/icon.png"),
                                 ),
                               ),
                               Container(
                                 child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         15.0, 15.0, 0, 15.0),
-                                    child: Text("Upcoming Appointment Date")),
+                                    child: Text(
+                                      "Upcoming Appointment Date",
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 20.0,
+                                          color: Colors.black87),
+                                    )),
                               ),
                               Container(
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15.0),
-                                  child: Text(
-                                    formattedBookingDate,
-                                    style: TextStyle(fontSize: 18.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        formattedBookingDate,
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                      Text(
+                                        document.data["time"],
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -112,7 +131,7 @@ class _MyAppointmentState extends State<MyAppointment> {
                                 padding: const EdgeInsets.fromLTRB(
                                     20.0, 12.0, 8.0, 8.0),
                                 child: Container(
-                                  width: 120,
+                                  width: 165,
                                   height: 45,
                                   child: RaisedButton(
                                     onPressed: () async {
@@ -122,7 +141,12 @@ class _MyAppointmentState extends State<MyAppointment> {
                                           .document(document.documentID)
                                           .updateData({'date': _currentdate});
                                     },
-                                    child: Text("Change Date"),
+                                    child: Text(
+                                      "Change Date",
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 15.0,
+                                          color: Colors.black87),
+                                    ),
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
@@ -134,7 +158,7 @@ class _MyAppointmentState extends State<MyAppointment> {
                                 padding: const EdgeInsets.fromLTRB(
                                     20.0, 12.0, 8.0, 8.0),
                                 child: Container(
-                                  width: 130,
+                                  width: 180,
                                   height: 45,
                                   child: RaisedButton(
                                     onPressed: () async {
@@ -160,7 +184,12 @@ class _MyAppointmentState extends State<MyAppointment> {
                                             );
                                           });
                                     },
-                                    child: Text("Delete Booking"),
+                                    child: Text(
+                                      "Delete Booking",
+                                      style: GoogleFonts.notoSans(
+                                          fontSize: 15.0,
+                                          color: Colors.black87),
+                                    ),
                                     color: Colors.amber,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:

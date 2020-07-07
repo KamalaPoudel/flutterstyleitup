@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/details.dart';
 
 class CommentPage extends StatefulWidget {
@@ -15,11 +17,32 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   List comment = [];
+  String userEmail;
+  String fullName;
 
   @override
   void initState() {
+    FirebaseAuth.instance.currentUser().then((user) {
+      setState(() {
+        userEmail = user.email;
+        print(userEmail);
+      });
+      getData();
+    });
     super.initState();
     getComments();
+  }
+
+  void getData() async {
+    await Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((DocumentSnapshot ds) {
+      setState(() {
+        fullName = ds.data["fullName"];
+      });
+    });
   }
 
   Future<List> getComments() async {
@@ -35,6 +58,7 @@ class _CommentPageState extends State<CommentPage> {
 
   final commentController = TextEditingController();
   final databaseReference = Firestore.instance;
+  //TextEditingController yourFullName = TextEditingController(text: fullName);
   @override
   Widget build(BuildContext context) {
     String id1 = widget.documentid;
@@ -42,7 +66,10 @@ class _CommentPageState extends State<CommentPage> {
         backgroundColor: Color.fromARGB(0xff, 241, 241, 254),
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Your Feedbacks Here"),
+          title: Text(
+            "Your Feedbacks Here",
+            style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.white),
+          ),
           automaticallyImplyLeading: false,
           leading: InkWell(
               onTap: () {
@@ -63,7 +90,8 @@ class _CommentPageState extends State<CommentPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Comment Section',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style:
+                    GoogleFonts.notoSans(fontSize: 25.0, color: Colors.black),
               ),
             ),
             comment != null
@@ -98,7 +126,7 @@ class _CommentPageState extends State<CommentPage> {
                 children: <Widget>[
                   Container(
                     height: 50,
-                    width: MediaQuery.of(context).size.width / 1.5,
+                    width: MediaQuery.of(context).size.width / 1.3,
                     child: TextFormField(
                       controller: commentController,
                       cursorColor: Colors.black,
@@ -126,7 +154,7 @@ class _CommentPageState extends State<CommentPage> {
                           'comments': FieldValue.arrayUnion([
                             {
                               "comment": commentController.text,
-                              "name": 'Your name here',
+                              "name": 'yourFullName.text',
                             }
                           ]),
                         });

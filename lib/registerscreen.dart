@@ -21,7 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String address;
   bool isLoading = false;
   String phoneNumber;
-  //TextEditingController fullName = TextEditingController();
+  // TextEditingController fullName = TextEditingController();
   //TextEditingController address = TextEditingController();
   // TextEditingController phoneNumber = TextEditingController();
   // TextEditingController email = TextEditingController();
