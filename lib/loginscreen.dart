@@ -71,22 +71,22 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           isLoading = false;
         });
-        // showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) {
-        //       return AlertDialog(
-        //         title: Text("invalid details"),
-        //         content: Text("Your email or password is wrong"),
-        //         actions: <Widget>[
-        //           FlatButton(
-        //             onPressed: () {
-        //               Navigator.of(context).pop();
-        //             },
-        //             child: Text("OKAY"),
-        //           ),
-        //         ],
-        //       );
-        //     });
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("invalid details"),
+                content: Text("Your email or password is wrong"),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OKAY"),
+                  ),
+                ],
+              );
+            });
 
         print(e);
       }

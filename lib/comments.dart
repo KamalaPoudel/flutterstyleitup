@@ -41,11 +41,12 @@ class _CommentPageState extends State<CommentPage> {
         .then((DocumentSnapshot ds) {
       setState(() {
         fullName = ds.data["fullName"];
+        // print(fullName);
       });
     });
   }
 
-  Future<List> getComments() async {
+  void getComments() async {
     var docref = Firestore.instance
         .collection(widget.collectionName)
         .document(widget.documentid);
@@ -150,11 +151,11 @@ class _CommentPageState extends State<CommentPage> {
                         await databaseReference
                             .collection(widget.collectionName)
                             .document(id1)
-                            .setData({
+                            .updateData({
                           'comments': FieldValue.arrayUnion([
                             {
                               "comment": commentController.text,
-                              "name": 'yourFullName.text',
+                              "name": fullName,
                             }
                           ]),
                         });

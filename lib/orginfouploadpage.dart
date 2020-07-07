@@ -180,16 +180,33 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                               ConnectionState.done) {
                             return serviceSnapshot.data["categoryId"] ==
                                     widget.categoryId
-                                ? ListTile(
-                                    title: Text(
-                                      serviceSnapshot.data["serviceName"],
-                                      style: GoogleFonts.notoSans(
-                                          fontSize: 20.0, color: Colors.black),
-                                    ),
-                                    trailing: Text(
-                                      serviceSnapshot.data["price"],
-                                      style: GoogleFonts.notoSans(
-                                          fontSize: 20.0, color: Colors.black),
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(width: .5),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        color: Colors.white),
+                                    margin: EdgeInsets.only(
+                                        left: 5.0, top: 10.0, right: 5.0),
+                                    child: ListTile(
+                                      title: Text(
+                                        serviceSnapshot.data["serviceName"],
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 20.0,
+                                            color: Colors.black),
+                                      ),
+                                      subtitle: Text(
+                                        serviceSnapshot.data["estimatedTime"],
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 20.0,
+                                            color: Colors.black),
+                                      ),
+                                      trailing: Text(
+                                        serviceSnapshot.data["price"],
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 20.0,
+                                            color: Colors.black),
+                                      ),
                                     ),
                                   )
                                 : Container();

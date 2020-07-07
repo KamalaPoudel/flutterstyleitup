@@ -17,53 +17,61 @@ class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Customer Homepage"),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          centerTitle: true,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Text("Customer Homepage"),
+          ),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: <Color>[Colors.deepOrange, Colors.orangeAccent])),
-              child: Container(
-                  height: 200,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Expanded(
-                        child: Material(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(110.0)),
-                          elevation: 10,
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              "lib/assets/icon.png",
-                              width: 80,
-                              height: 90,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
+            Container(
+              height: 250.0,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: <Color>[
+                  Colors.deepOrange,
+                  Colors.orangeAccent
+                ])),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(80.0)),
+                        elevation: 10,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'STYLEitUP',
-                            style: GoogleFonts.notoSans(
-                                color: Colors.white, fontSize: 20.0),
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Image.asset(
+                            "lib/assets/icon.png",
+                            width: 100,
+                            height: 120,
                           ),
                         ),
                       ),
-                    ],
-                  )),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'STYLEitUP',
+                          style: GoogleFonts.notoSans(
+                              color: Colors.white, fontSize: 20.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
-              height: 70,
+              height: 100,
               child: Align(
                 alignment: Alignment.center,
                 child: ListTile(
@@ -81,7 +89,7 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
             ),
             Container(
-              height: 70,
+              height: 100,
               child: Align(
                 child: ListTile(
                   title: Text(
@@ -100,7 +108,7 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
             ),
             Container(
-              height: 70,
+              height: 100,
               child: Align(
                 child: ListTile(
                   title: Text(
@@ -119,7 +127,7 @@ class _CustomerHomeState extends State<CustomerHome> {
               ),
             ),
             Container(
-              height: 70,
+              height: 100,
               child: Align(
                 child: ListTile(
                   title: Text(
@@ -140,62 +148,91 @@ class _CustomerHomeState extends State<CustomerHome> {
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.red, Colors.blue[300]])),
-        child: StreamBuilder<QuerySnapshot>(
-            stream:
-                Firestore.instance.collection('ServiceCategory').snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return new Text('Error: ${snapshot.error}');
-              }
-              if (!snapshot.hasData) {
-                return Text("loading");
-              }
-              return GridView.builder(
-                primary: false,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                ),
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HairCare(
-                                categoryId: snapshot.data.documents[index]
-                                    ["categoryId"],
-                              )));
-                    },
-                    child: Container(
-                      // height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white70,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                snapshot.data.documents[index]['image'])),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        snapshot.data.documents[index]["categoryName"],
-                        style: GoogleFonts.notoSans(
-                            fontSize: 30.0, color: Colors.white),
-                      ),
+                colors: [Colors.blue[300], Colors.red])),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 17.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: .5),
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.red),
+                  alignment: Alignment.center,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "We Have Four Different Services Available." +
+                          "\n" +
+                          "        " +
+                          "Please Choose as Per Your Wish",
+                      style: GoogleFonts.notoSans(
+                          fontSize: 18.0, color: Colors.white),
                     ),
-                  );
-                },
-              );
-            }),
+                  )),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: Firestore.instance
+                      .collection('ServiceCategory')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return new Text('Error: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData) {
+                      return Text("loading");
+                    }
+                    return GridView.builder(
+                      primary: false,
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 20, right: 20),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => HairCare(
+                                      categoryId: snapshot.data.documents[index]
+                                          ["categoryId"],
+                                    )));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white70,
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                      snapshot.data.documents[index]['image'])),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              snapshot.data.documents[index]["categoryName"],
+                              style: GoogleFonts.notoSans(
+                                  fontSize: 30.0, color: Colors.white),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
