@@ -48,7 +48,7 @@ class _OrgHomeState extends State<OrgHome> {
         centerTitle: true,
         title: Text("Organization Home"),
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.exit_to_app),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.of(context).pushNamed('/Welcomepage');

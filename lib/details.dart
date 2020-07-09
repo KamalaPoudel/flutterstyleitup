@@ -24,35 +24,45 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   @override
-  Icon actionIcon = new Icon(Icons.chat_bubble_outline);
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Text("Details"),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 0.0),
+          child: Text(
+            "Details",
+            style: GoogleFonts.notoSans(color: Colors.white, fontSize: 24.0),
+          ),
+        ),
         leading: InkWell(
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => HairCare()));
             },
-            child: Icon(Icons.chevron_left)),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Icon(Icons.chevron_left, size: 30.0),
+            )),
         actions: <Widget>[
-          new IconButton(
-            icon: actionIcon,
-            onPressed: () {
-              print(widget.collectionName);
-              print(widget.documentid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CommentPage(
-                          collectionName: widget.collectionName,
-                          documentid: widget.documentid,
-                        )),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.only(top: 0.0),
+            child: IconButton(
+              icon: Icon(Icons.chat_bubble),
+              onPressed: () {
+                print(widget.collectionName);
+                print(widget.documentid);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CommentPage(
+                            collectionName: widget.collectionName,
+                            documentid: widget.documentid,
+                          )),
+                );
+              },
+            ),
           ),
         ],
       ),

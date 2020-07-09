@@ -172,7 +172,11 @@ class _MyAppointmentState extends State<MyAppointment> {
                                             return AlertDialog(
                                               title: Text("Appointment Detail"),
                                               content: Text(
-                                                  "You have deleted an appointment"),
+                                                "You have deleted an appointment",
+                                                style: GoogleFonts.notoSans(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black),
+                                              ),
                                               actions: <Widget>[
                                                 FlatButton(
                                                   onPressed: () {

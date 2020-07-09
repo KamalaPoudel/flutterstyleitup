@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
         return OrgHome();
       }
     } else {
-      return LoginScreen();
+      return Welcomepage();
     }
   }
 }

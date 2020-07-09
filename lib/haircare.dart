@@ -27,9 +27,21 @@ class _HairCareState extends State<HairCare> {
                 MaterialPageRoute(builder: (context) => CustomerHome()),
               );
             },
-            child: Icon(Icons.chevron_left)),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Icon(
+                Icons.chevron_left,
+                size: 30.0,
+              ),
+            )),
         centerTitle: true,
-        title: Text("Hair Care"),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 0.0),
+          child: Text(
+            "Organization Names",
+            style: GoogleFonts.notoSans(color: Colors.white, fontSize: 25.0),
+          ),
+        ),
       ),
       body: Container(
           decoration: BoxDecoration(

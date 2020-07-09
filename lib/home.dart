@@ -7,6 +7,7 @@ import 'package:style_it_up/appointment.dart';
 import 'package:style_it_up/customerGallery.dart';
 import 'package:style_it_up/haircare.dart';
 import 'package:style_it_up/profile.dart';
+import 'package:style_it_up/welcomepage.dart';
 
 class CustomerHome extends StatefulWidget {
   @override
@@ -17,13 +18,13 @@ class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          centerTitle: true,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Text("Customer Homepage"),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 0.0),
+          child: Text(
+            "Customer Homepage",
+            style: GoogleFonts.notoSans(color: Colors.white, fontSize: 24.0),
           ),
         ),
       ),
@@ -138,7 +139,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   leading: Icon(Icons.arrow_back),
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushNamed('/Welcomepage');
+                    Navigator.of(context).pushReplacementNamed('/login');
                   },
                 ),
               ),
@@ -162,7 +163,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   decoration: BoxDecoration(
                       border: Border.all(width: .5),
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.red),
+                      color: Colors.green[300]),
                   alignment: Alignment.center,
                   height: 150,
                   width: MediaQuery.of(context).size.width / 1.1,

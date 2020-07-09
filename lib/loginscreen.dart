@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -114,124 +116,131 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colors.green, Colors.blue])),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 150.0, 16.0, 200.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset("lib/assets/icon.png"),
-                        ),
-                        Text(
-                          "Login",
-                          style: GoogleFonts.notoSans(
-                              fontSize: 25.0, color: Colors.black87),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    3.0, 15.0, 3.0, 15.0),
-                                child: TextFormField(
-                                  validator: validateEmail,
-                                  onSaved: (value) => email = value.trim(),
-                                  decoration: InputDecoration(
-                                    hintText: "Email",
-                                    hintStyle: GoogleFonts.notoSans(
-                                        color: Colors.black87),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    3.0, 15.0, 3.0, 15.0),
-                                child: TextFormField(
-                                  validator: validatePassword,
-                                  onSaved: (value) => password = value.trim(),
-                                  obscureText: _obscureText,
-                                  decoration: InputDecoration(
-                                    hintText: "Password",
-                                    hintStyle: GoogleFonts.notoSans(
-                                        color: Colors.black87),
-                                    suffixIcon: IconButton(
-                                        icon: FaIcon(
-                                          _obscureText
-                                              ? FontAwesomeIcons.eyeSlash
-                                              : FontAwesomeIcons.eye,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: _toggle),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 40),
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    validateAndSubmit();
-                                  },
-                                  child: Text("Login"),
-                                  color: Colors.pinkAccent,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 18.0),
-                                child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterScreen()));
-                                    },
-                                    child: Text("Don't have account? Signup!")),
-                              )
-                            ],
+        body: DoubleBackToCloseApp(
+      snackBar: const SnackBar(
+        content: Text('Tap back again to leave'),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Colors.green, Colors.blue])),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.fromLTRB(16.0, 150.0, 16.0, 200.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset("lib/assets/icon.png"),
                           ),
-                        ),
-                      ],
+                          Text(
+                            "Login",
+                            style: GoogleFonts.notoSans(
+                                fontSize: 25.0, color: Colors.black87),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      3.0, 15.0, 3.0, 15.0),
+                                  child: TextFormField(
+                                    validator: validateEmail,
+                                    onSaved: (value) => email = value.trim(),
+                                    decoration: InputDecoration(
+                                      hintText: "Email",
+                                      hintStyle: GoogleFonts.notoSans(
+                                          color: Colors.black87),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      3.0, 15.0, 3.0, 15.0),
+                                  child: TextFormField(
+                                    validator: validatePassword,
+                                    onSaved: (value) => password = value.trim(),
+                                    obscureText: _obscureText,
+                                    decoration: InputDecoration(
+                                      hintText: "Password",
+                                      hintStyle: GoogleFonts.notoSans(
+                                          color: Colors.black87),
+                                      suffixIcon: IconButton(
+                                          icon: FaIcon(
+                                            _obscureText
+                                                ? FontAwesomeIcons.eyeSlash
+                                                : FontAwesomeIcons.eye,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: _toggle),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      validateAndSubmit();
+                                    },
+                                    child: Text("Login"),
+                                    color: Colors.pinkAccent,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 18.0),
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RegisterScreen()));
+                                      },
+                                      child:
+                                          Text("Don't have account? Signup!")),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            isLoading
-                ? Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.black.withOpacity(0.5),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                        backgroundColor: Colors.redAccent,
+              isLoading
+                  ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black.withOpacity(0.5),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1,
+                          backgroundColor: Colors.redAccent,
+                        ),
                       ),
-                    ),
-                  )
-                : Container(),
-          ],
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       ),
     ));
