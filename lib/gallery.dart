@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class Gallery extends StatefulWidget {
@@ -88,7 +89,10 @@ class _GalleryState extends State<Gallery> {
       backgroundColor: Color.fromARGB(0xff, 241, 241, 254),
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Add Images To Gallery'),
+        title: Text(
+          'Add Images To Gallery',
+          style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.black87),
+        ),
       ),
       body: GestureDetector(
         onTap: () {
@@ -149,7 +153,11 @@ class _GalleryState extends State<Gallery> {
                             : Container(
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: Text("Choose a pictures"),
+                                  child: Text(
+                                    "Choose a pictures",
+                                    style: GoogleFonts.notoSans(
+                                        fontSize: 20.0, color: Colors.black87),
+                                  ),
                                 ),
                               ),
                         //  Text("Tap to Choose or Take Picture"),

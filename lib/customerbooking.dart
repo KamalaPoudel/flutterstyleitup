@@ -74,8 +74,9 @@ class _CustomerBookingState extends State<CustomerBooking> {
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Details()));
+                    Navigator.pop(context);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => Details()));
                   },
                   child: Text("OKAY"),
                 ),
@@ -147,17 +148,11 @@ class _CustomerBookingState extends State<CustomerBooking> {
     MaterialLocalizations localizations = MaterialLocalizations.of(context);
     formattedTimeOfDay = localizations.formatTimeOfDay(_time);
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          centerTitle: true,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Text(
-              "Make Booking",
-              style: GoogleFonts.notoSans(color: Colors.white, fontSize: 30.0),
-            ),
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Make Booking",
+          style: GoogleFonts.notoSans(color: Colors.white, fontSize: 30.0),
         ),
       ),
       body: Container(

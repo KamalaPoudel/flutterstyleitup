@@ -15,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
-  String group;
+  String group = "customer";
   String user;
   String fullName;
   String address;
@@ -76,15 +76,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  // String valdateFullName(String value){
-  //   Pattern pattern =
+  // String validateFullName(String value){
+  // if(valuelength == 0){
+  //   return 'Please enter your fullname';
+  // } else {
+  //   return null;
   // }
+  //  }
 
   String validatePhoneNumber(String value) {
     Pattern pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return 'Please enter mobile number';
+      return "Phone number can't be empty";
     } else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
     }
@@ -95,18 +99,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (value.length == 0) {
+      return "Email can't be empty";
+    } else if (!regex.hasMatch(value)) {
       return 'Enter Valid Email';
-    else
-      return null;
+    }
+    return null;
   }
 
   //validator for password
   String validatePassword(String value) {
-    if (value.length < 8)
+    if (value.length == 0) {
+      return "Password can't be empty";
+    } else if (value.length < 8) {
       return 'Password must be 8 character long';
-    else
-      return null;
+    }
+    return null;
   }
 
   @override
@@ -151,6 +159,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     padding: const EdgeInsets.fromLTRB(
                                         3.0, 15.0, 3.0, 15.0),
                                     child: TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Fullname can't be empty.";
+                                        }
+
+                                        if (value.length < 2) {
+                                          return "Name must be more than two characters.";
+                                        }
+                                      },
                                       onSaved: (value) =>
                                           fullName = value.trim(),
                                       //controller: fullName,
@@ -174,6 +191,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     padding: const EdgeInsets.fromLTRB(
                                         3.0, 15.0, 3.0, 15.0),
                                     child: TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Address can't be empty.";
+                                        }
+                                      },
                                       //controller: address,
                                       onSaved: (value) =>
                                           address = value.trim(),

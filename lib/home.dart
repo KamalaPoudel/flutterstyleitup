@@ -138,8 +138,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                   ),
                   leading: Icon(Icons.arrow_back),
                   onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushReplacementNamed('/login');
+                    try {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushReplacementNamed('/login');
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                 ),
               ),

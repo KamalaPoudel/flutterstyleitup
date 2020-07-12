@@ -15,180 +15,191 @@ class HairCare extends StatefulWidget {
 }
 
 class _HairCareState extends State<HairCare> {
+  List<DocumentSnapshot> organizationList = [];
+  @override
+  void initState() {
+    getOrganization();
+    super.initState();
+  }
+  //get users according to usertype - done
+  //services according to category
+  // save the userId in list
+  // get users
+  // loop users and check if userId
+  //save to another list
+
+  void getOrganization() async {
+    print(widget.categoryId);
+    await Firestore.instance
+        .collection('users')
+        .where("userType", isEqualTo: "organization")
+        .getDocuments()
+        .then((value) {
+      value.documents.forEach((document) {
+        Firestore.instance
+            .collection("users")
+            .document(document.documentID)
+            .collection("services")
+            .getDocuments()
+            .then((sub) {
+          sub.documents.forEach((subDoc) {
+            if (subDoc.documentID == widget.categoryId) {
+              setState(() {
+                organizationList.add(document);
+              });
+            }
+          });
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: InkWell(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CustomerHome()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Icon(
+                  Icons.chevron_left,
+                  size: 30.0,
+                ),
+              )),
+          centerTitle: true,
+          title: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CustomerHome()),
-              );
+              print(organizationList);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
-              child: Icon(
-                Icons.chevron_left,
-                size: 30.0,
+              child: Text(
+                "Organization Names",
+                style:
+                    GoogleFonts.notoSans(color: Colors.white, fontSize: 25.0),
               ),
-            )),
-        centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 0.0),
-          child: Text(
-            "Organization Names",
-            style: GoogleFonts.notoSans(color: Colors.white, fontSize: 25.0),
+            ),
           ),
         ),
-      ),
-      body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.green, Colors.blue])),
-          child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
-                .collection('users')
-                .where("userType", isEqualTo: "organization")
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError)
-                return new Text('Error: ${snapshot.error}');
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return new Text('Loading...');
-                default:
-                  return new ListView(
-                    children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 15.0),
-                                      child: Text(
-                                        document['fullName'],
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 24.0,
-                                            color: Colors.black87),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 15.0),
-                                      child: Text(
-                                        "Address" +
-                                            ":" +
-                                            " " +
-                                            document['address'],
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 14.0,
-                                            color: Colors.black87),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+        body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.green, Colors.blue])),
+            child: ListView(
+              children: organizationList.map((DocumentSnapshot document) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text(
+                                  document['fullName'],
+                                  style: GoogleFonts.notoSans(
+                                      fontSize: 24.0, color: Colors.black87),
+                                ),
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8, right: 8, bottom: 4),
-                                    child: Container(
-                                      height: 50,
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          print(document.documentID);
-
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Details(
-                                                      categoryId:
-                                                          widget.categoryId,
-                                                      documentid:
-                                                          document.documentID,
-                                                      collectionName: 'details',
-                                                      comments:
-                                                          document['comments'],
-                                                      orgEmail:
-                                                          document["email"],
-                                                    )),
-                                          );
-                                        },
-                                        child: Text(
-                                          "View Details",
-                                          style: GoogleFonts.notoSans(
-                                              fontSize: 18.0,
-                                              color: Colors.black87),
-                                        ),
-                                        color: Colors.amber,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0)),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 4, right: 8, bottom: 8),
-                                    child: Container(
-                                      height: 50,
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    saloonLocation(
-                                                        email:
-                                                            document["email"],
-                                                        fullName: document[
-                                                            "fullName"])),
-                                          );
-                                        },
-                                        child: Text(
-                                          "Show in Map",
-                                          style: GoogleFonts.notoSans(
-                                              fontSize: 18.0,
-                                              color: Colors.black87),
-                                        ),
-                                        color: Colors.amber,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0)),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                            Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Text(
+                                  "Address" + ":" + " " + document['address'],
+                                  style: GoogleFonts.notoSans(
+                                      fontSize: 14.0, color: Colors.black87),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    }).toList(),
-                  );
-              }
-            },
-          )),
-    );
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8, right: 8, bottom: 4),
+                              child: Container(
+                                height: 50,
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    print(document.documentID);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Details(
+                                                categoryId: widget.categoryId,
+                                                documentid: document.documentID,
+                                                collectionName: 'details',
+                                                comments: document['comments'],
+                                                orgEmail: document["email"],
+                                              )),
+                                    );
+                                  },
+                                  child: Text(
+                                    "View Details",
+                                    style: GoogleFonts.notoSans(
+                                        fontSize: 18.0, color: Colors.black87),
+                                  ),
+                                  color: Colors.amber,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 4, right: 8, bottom: 8),
+                              child: Container(
+                                height: 50,
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => saloonLocation(
+                                              email: document["email"],
+                                              fullName: document["fullName"])),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Show in Map",
+                                    style: GoogleFonts.notoSans(
+                                        fontSize: 18.0, color: Colors.black87),
+                                  ),
+                                  color: Colors.amber,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            )));
   }
 }
 

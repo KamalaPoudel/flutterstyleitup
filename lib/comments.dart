@@ -71,17 +71,18 @@ class _CommentPageState extends State<CommentPage> {
             "Your Feedbacks Here",
             style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.white),
           ),
-          automaticallyImplyLeading: false,
+          //automaticallyImplyLeading: false,
           leading: InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Details(
-                            collectionName: widget.collectionName,
-                            documentid: widget.documentid,
-                          )),
-                );
+                Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => Details(
+                //             collectionName: widget.collectionName,
+                //             documentid: widget.documentid,
+                //           )),
+                // );
               },
               child: Icon(Icons.chevron_left)),
         ),
@@ -159,17 +160,34 @@ class _CommentPageState extends State<CommentPage> {
                             }
                           ]),
                         });
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CommentPage(
-                                    collectionName: widget.collectionName,
-                                    documentid: widget.documentid,
-                                  )),
-                        );
-
                         commentController.clear();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Comment successfull"),
+                                content: Text("Thank You for Your Feedback!"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OKAY"),
+                                  ),
+                                ],
+                              );
+                            });
+                        Navigator.of(context).pop();
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => CommentPage(
+                        //             collectionName: widget.collectionName,
+                        //             documentid: widget.documentid,
+                        //           )),
+                        // );
+
                       }
                     },
                     color: Colors.blue[800],

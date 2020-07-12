@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomerGallery extends StatefulWidget {
   @override
@@ -13,7 +14,10 @@ class _CustomerGalleryState extends State<CustomerGallery> {
     return Column(
       children: <Widget>[
         Container(
-          child: Text(document['Collection name']),
+          child: Text(
+            document['Collection name'],
+            style: GoogleFonts.notoSans(fontSize: 18.0, color: Colors.black),
+          ),
         ),
         Container(
           decoration: BoxDecoration(
@@ -42,7 +46,7 @@ class _CustomerGalleryState extends State<CustomerGallery> {
               indicatorBgPadding: 7.0,
               images: document['Pictures'].map((image) {
                 return ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(0),
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
@@ -61,7 +65,10 @@ class _CustomerGalleryState extends State<CustomerGallery> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Images Here"),
+        title: Text(
+          "Images Here",
+          style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(

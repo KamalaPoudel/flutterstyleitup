@@ -95,12 +95,76 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                     Firestore.instance.document("users/" + userEmail);
 
                 //For organization service sub collection
+
                 Firestore.instance
                     .collection('users')
                     .document(userEmail)
                     .collection("services")
-                    .document(serviceId)
-                    .setData({"serviceDoc": serviceReference});
+                    .getDocuments()
+                    .then((value) {
+                  if (value.documents.length > 0) {
+                    value.documents.forEach((element) {
+                      if (element.documentID == widget.categoryId) {
+                        Firestore.instance
+                            .collection('users')
+                            .document(userEmail)
+                            .collection("services")
+                            .document(widget.categoryId)
+                            .updateData({
+                          "serviceDoc":
+                              FieldValue.arrayUnion([serviceReference])
+                        });
+                      } else {
+                        Firestore.instance
+                            .collection('users')
+                            .document(userEmail)
+                            .collection("services")
+                            .document(widget.categoryId)
+                            .setData({
+                          "serviceDoc":
+                              FieldValue.arrayUnion([serviceReference])
+                        });
+                      }
+                    });
+                  } else {
+                    Firestore.instance
+                        .collection('users')
+                        .document(userEmail)
+                        .collection("services")
+                        .document(widget.categoryId)
+                        .setData({
+                      "serviceDoc": FieldValue.arrayUnion([serviceReference])
+                    });
+                  }
+                }).catchError((onError) {
+                  print(onError);
+                });
+
+                // Firestore.instance
+                //     .collection('users')
+                //     .document(userEmail)
+                //     .collection("services")
+                //     .document(widget.categoryId)
+                //     .get()
+                //     .then((value) {
+                //   Firestore.instance
+                //       .collection('users')
+                //       .document(userEmail)
+                //       .collection("services")
+                //       .document(widget.categoryId)
+                //       .updateData({
+                //     "serviceDoc": FieldValue.arrayUnion([serviceReference])
+                //   });
+                // }).catchError((onError) {
+                //   Firestore.instance
+                //       .collection('users')
+                //       .document(userEmail)
+                //       .collection("services")
+                //       .document(widget.categoryId)
+                //       .setData({
+                //     "serviceDoc": FieldValue.arrayUnion([serviceReference])
+                //   });
+                // });
 
                 Firestore.instance
                     .collection('services')
@@ -141,80 +205,85 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [Colors.green, Colors.blue])),
-        child: StreamBuilder<QuerySnapshot>(
+        child: StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance
               .collection('users')
               .document(userEmail)
               .collection("services")
+              .document(widget.categoryId)
               .snapshots(),
           builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return new Text('Loading...');
               default:
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (BuildContext context, index) {
-                    var service = snapshot.data.documents[index];
-                    return FutureBuilder(
-                        future: referenceData(service['serviceDoc']),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> serviceSnapshot) {
-                          if (!snapshot.hasData) {
-                            return Text("No Data");
-                          } else if (serviceSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                if (snapshot.data.data == null) {
+                  return Text("No data");
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data["serviceDoc"].length,
+                    itemBuilder: (BuildContext context, index) {
+                      var service = snapshot.data["serviceDoc"][index];
+                      return FutureBuilder(
+                          future: referenceData(service),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<dynamic> serviceSnapshot) {
+                            if (!snapshot.hasData) {
+                              return Text("No Data");
+                            } else if (serviceSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            } else if (serviceSnapshot.connectionState ==
+                                ConnectionState.active) {
+                              return Center(
                                 child: CircularProgressIndicator(),
-                              ),
-                            );
-                          } else if (serviceSnapshot.connectionState ==
-                              ConnectionState.active) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (serviceSnapshot.connectionState ==
-                              ConnectionState.done) {
-                            return serviceSnapshot.data["categoryId"] ==
-                                    widget.categoryId
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: .5),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        color: Colors.white),
-                                    margin: EdgeInsets.only(
-                                        left: 5.0, top: 10.0, right: 5.0),
-                                    child: ListTile(
-                                      title: Text(
-                                        serviceSnapshot.data["serviceName"],
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 20.0,
-                                            color: Colors.black),
+                              );
+                            } else if (serviceSnapshot.connectionState ==
+                                ConnectionState.done) {
+                              return serviceSnapshot.data["categoryId"] ==
+                                      widget.categoryId
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(width: .5),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          color: Colors.white),
+                                      margin: EdgeInsets.only(
+                                          left: 5.0, top: 10.0, right: 5.0),
+                                      child: ListTile(
+                                        title: Text(
+                                          serviceSnapshot.data["serviceName"],
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 20.0,
+                                              color: Colors.black),
+                                        ),
+                                        subtitle: Text(
+                                          serviceSnapshot.data["estimatedTime"],
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 20.0,
+                                              color: Colors.black),
+                                        ),
+                                        trailing: Text(
+                                          serviceSnapshot.data["price"],
+                                          style: GoogleFonts.notoSans(
+                                              fontSize: 20.0,
+                                              color: Colors.black),
+                                        ),
                                       ),
-                                      subtitle: Text(
-                                        serviceSnapshot.data["estimatedTime"],
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 20.0,
-                                            color: Colors.black),
-                                      ),
-                                      trailing: Text(
-                                        serviceSnapshot.data["price"],
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 20.0,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  )
-                                : Container();
-                          }
-                          return Text("Nodata");
-                        });
-                  },
-                );
+                                    )
+                                  : Container();
+                            }
+                            return Text("Nodata");
+                          });
+                    },
+                  );
+                }
             }
           },
         ),

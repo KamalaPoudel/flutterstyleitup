@@ -214,8 +214,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 builder: (context) =>
                                                     RegisterScreen()));
                                       },
-                                      child:
-                                          Text("Don't have account? Signup!")),
+                                      child: Text(
+                                          "Don't have an account? Signup!")),
                                 )
                               ],
                             ),

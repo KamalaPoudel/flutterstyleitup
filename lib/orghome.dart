@@ -46,7 +46,10 @@ class _OrgHomeState extends State<OrgHome> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Organization Home"),
+        title: Text(
+          "Organization Home",
+          style: GoogleFonts.notoSans(fontSize: 25.0, color: Colors.white),
+        ),
         leading: IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () async {
@@ -82,7 +85,11 @@ class _OrgHomeState extends State<OrgHome> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white70),
-                      child: Text('Gallery'),
+                      child: Text(
+                        'Gallery',
+                        style: GoogleFonts.notoSans(
+                            fontSize: 20.0, color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
@@ -103,7 +110,11 @@ class _OrgHomeState extends State<OrgHome> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white70),
-                      child: Text('See Appointments'),
+                      child: Text(
+                        'See Appointments',
+                        style: GoogleFonts.notoSans(
+                            fontSize: 20.0, color: Colors.black),
+                      ),
                     ),
                   ),
                 ),

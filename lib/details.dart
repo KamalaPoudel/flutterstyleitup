@@ -38,8 +38,7 @@ class _DetailsState extends State<Details> {
         ),
         leading: InkWell(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HairCare()));
+              Navigator.pop(context);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
