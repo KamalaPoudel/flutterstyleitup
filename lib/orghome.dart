@@ -67,6 +67,25 @@ class _OrgHomeState extends State<OrgHome> {
                 colors: [Colors.green, Colors.blue])),
         child: Column(
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: .5),
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.green[300]),
+                  alignment: Alignment.center,
+                  height: 150,
+                  width: MediaQuery.of(context).size.width / 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "Welcome to STYLEitUP.",
+                      style: GoogleFonts.notoSans(
+                          fontSize: 30.0, color: Colors.white),
+                    ),
+                  )),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -78,11 +97,17 @@ class _OrgHomeState extends State<OrgHome> {
                     },
                     child: Container(
                       margin: EdgeInsets.only(
-                          left: 20.0, top: 20.0, right: 5.0, bottom: 20.0),
-                      height: 80,
+                          left: 20.0, top: 10.0, right: 5.0, bottom: 20.0),
+                      height: 100,
                       width: MediaQuery.of(context).size.width / 2.2,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
+
+                          // image: DecorationImage(
+                          //   image: AssetImage(
+                          //       "lib/assets/camera2.png"), // <-- BACKGROUND IMAGE
+                          //   fit: BoxFit.cover,
+                          // ), //image: "lib/assets/camera.png" ,
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white70),
                       child: Text(
@@ -103,9 +128,9 @@ class _OrgHomeState extends State<OrgHome> {
                     },
                     child: Container(
                       margin: EdgeInsets.only(
-                          left: 5.0, top: 20.0, right: 20.0, bottom: 20.0),
+                          left: 5.0, top: 10.0, right: 20.0, bottom: 20.0),
                       width: MediaQuery.of(context).size.width / 2.2,
-                      height: 80,
+                      height: 100,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -122,7 +147,7 @@ class _OrgHomeState extends State<OrgHome> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 8.0, 5.0, 5.0),
+                padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: Firestore.instance
                         .collection('ServiceCategory')

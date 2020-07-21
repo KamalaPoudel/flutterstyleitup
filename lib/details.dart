@@ -102,7 +102,7 @@ class _DetailsState extends State<Details> {
                                     Container(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                            const EdgeInsets.only(left: 5.0),
                                         child: Text(
                                           document['serviceName'],
                                           style: GoogleFonts.notoSans(
@@ -114,7 +114,7 @@ class _DetailsState extends State<Details> {
                                     Container(
                                       child: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                            const EdgeInsets.only(left: 5.0),
                                         child: Text(
                                           "Service Time" +
                                               ":" +

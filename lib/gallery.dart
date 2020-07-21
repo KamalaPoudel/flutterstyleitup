@@ -20,20 +20,15 @@ class _GalleryState extends State<Gallery> {
 
   Future<void> getImage() async {
     List<Asset> resultList = List<Asset>();
-
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 4,
         enableCamera: true,
-
         selectedAssets: images,
-
-        // ),
       );
     } on Exception catch (e) {
       _errorMessage = e.toString();
     }
-
     if (!mounted) return;
     setState(() {
       images = resultList;

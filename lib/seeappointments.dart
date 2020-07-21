@@ -4,6 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class SeeAppointments extends StatefulWidget {
+  String yourFullName;
+  String location;
+  String contactNumber;
+  String date;
+  String time;
+
   @override
   _SeeAppointmentsState createState() => _SeeAppointmentsState();
 }

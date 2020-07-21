@@ -158,7 +158,7 @@ class _CustomerHomeState extends State<CustomerHome> {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Colors.blue[300], Colors.red])),
+                colors: [Colors.white70, Colors.red])),
         child: Column(
           children: <Widget>[
             Padding(
@@ -199,7 +199,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                     return GridView.builder(
                       primary: false,
                       padding:
-                          const EdgeInsets.only(left: 20, top: 20, right: 20),
+                          const EdgeInsets.only(left: 20, top: 50, right: 20),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
