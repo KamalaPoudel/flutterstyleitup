@@ -10,6 +10,7 @@ import 'package:style_it_up/profile.dart';
 import 'package:style_it_up/welcomepage.dart';
 
 class CustomerHome extends StatefulWidget {
+  //customer home page class
   @override
   _CustomerHomeState createState() => _CustomerHomeState();
 }
@@ -29,6 +30,7 @@ class _CustomerHomeState extends State<CustomerHome> {
         ),
       ),
       drawer: Drawer(
+        //sidebar menu
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -83,6 +85,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   ),
                   leading: Icon(Icons.account_circle),
                   onTap: () {
+                    //setting route to reach my profile page by customer
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => myProfile()));
                   },
@@ -100,6 +103,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   ),
                   leading: Icon(Icons.calendar_today),
                   onTap: () {
+                    //setting route to reach my appointment page by customer
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -119,6 +123,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   ),
                   leading: Icon(Icons.camera),
                   onTap: () {
+                    //setting route to reach gallery page by customer
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -138,6 +143,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   ),
                   leading: Icon(Icons.arrow_back),
                   onTap: () async {
+                    //to logout of the application by customer
                     try {
                       await FirebaseAuth.instance.signOut();
                       Navigator.of(context).pushReplacementNamed('/login');
@@ -185,6 +191,7 @@ class _CustomerHomeState extends State<CustomerHome> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
+                  //displaying service category name in the home page by fetching those service category from database
                   stream: Firestore.instance
                       .collection('ServiceCategory')
                       .snapshots(),

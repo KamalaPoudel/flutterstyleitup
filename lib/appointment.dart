@@ -5,12 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class MyAppointment extends StatefulWidget {
+  //MyAppointment Class
   @override
   _MyAppointmentState createState() => _MyAppointmentState();
 }
 
 class _MyAppointmentState extends State<MyAppointment> {
-  String userEmail;
+  String userEmail; //variable declartion
 
   @override
   void initState() {
@@ -19,7 +20,9 @@ class _MyAppointmentState extends State<MyAppointment> {
   }
 
   Future<String> userData() async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    // Helps to identify the current user, whether user is customer or organization
+    final FirebaseUser user = await FirebaseAuth.instance
+        .currentUser(); // Authenticating the current user through email
     final String email = user.email;
     this.setState(() {
       userEmail = email;
@@ -30,9 +33,11 @@ class _MyAppointmentState extends State<MyAppointment> {
 
   DateTime _currentdate = new DateTime.now();
   Future<Null> _selectdate(BuildContext context) async {
+    // _selectdate function to choose date by displaying calendar on the screen
     final DateTime _seldate = await showDatePicker(
         context: context,
-        initialDate: _currentdate,
+        initialDate:
+            _currentdate, // initializing date in calender as current date
         firstDate: DateTime(2020),
         lastDate: DateTime(2050),
         builder: (context, child) {
@@ -41,6 +46,7 @@ class _MyAppointmentState extends State<MyAppointment> {
           );
         });
     if (_seldate != null) {
+      // condition if user doesnot select any date then the date in calender will be current date
       setState(() {
         _currentdate = _seldate;
       });
@@ -49,7 +55,8 @@ class _MyAppointmentState extends State<MyAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    String _formattedate = new DateFormat.yMMMd().format(_currentdate);
+    String _formattedate = new DateFormat.yMMMd()
+        .format(_currentdate); // displaying date in year/month/day format
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -59,7 +66,8 @@ class _MyAppointmentState extends State<MyAppointment> {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
+            // Fetching customer booking details from CustomerBooking collection in database,
+            stream: Firestore.instance // using user email reference
                 .collection('CustomerBooking')
                 .where("userEmail", isEqualTo: userEmail)
                 .snapshots(),
@@ -69,7 +77,8 @@ class _MyAppointmentState extends State<MyAppointment> {
                 return new Text('Error: ${snapshot.error}');
               if (snapshot.data.documents.length <= 0)
                 return Center(
-                    child: Text("You don't have any upcoming appointment"));
+                    child: Text(
+                        "You don't have any upcoming appointment")); //if there is no booking details, displaying this message on the screen
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return new Text('Loading...');
@@ -120,7 +129,8 @@ class _MyAppointmentState extends State<MyAppointment> {
                                         style: TextStyle(fontSize: 18.0),
                                       ),
                                       Text(
-                                        document.data["time"],
+                                        document.data[
+                                            "time"], // fetching time selected by the customer during booking from database
                                         style: TextStyle(fontSize: 18.0),
                                       ),
                                     ],
@@ -139,7 +149,9 @@ class _MyAppointmentState extends State<MyAppointment> {
                                       await Firestore.instance
                                           .collection('CustomerBooking')
                                           .document(document.documentID)
-                                          .updateData({'date': _currentdate});
+                                          .updateData({
+                                        'date': _currentdate
+                                      }); //updating new selected date in database
                                     },
                                     child: Text(
                                       "Change Date",
@@ -165,7 +177,7 @@ class _MyAppointmentState extends State<MyAppointment> {
                                       await Firestore.instance
                                           .collection('CustomerBooking')
                                           .document(document.documentID)
-                                          .delete();
+                                          .delete(); // deleting the data from CustomerBooking collection in database
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {

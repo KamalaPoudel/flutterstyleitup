@@ -9,6 +9,7 @@ import 'package:style_it_up/placePicker.dart';
 import 'package:style_it_up/seeappointments.dart';
 
 class OrgHome extends StatefulWidget {
+  //organization home class
   @override
   _OrgHomeState createState() => _OrgHomeState();
 }
@@ -30,6 +31,7 @@ class _OrgHomeState extends State<OrgHome> {
   }
 
   void getData() async {
+    //fetching data from users collection to access location
     await Firestore.instance
         .collection('users')
         .document(userEmail)
@@ -92,6 +94,7 @@ class _OrgHomeState extends State<OrgHome> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
+                      //setting route to go into gallery page where organization will upload their service images
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Gallery()));
                     },
@@ -121,6 +124,7 @@ class _OrgHomeState extends State<OrgHome> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
+                      //setting route to go into see appointment page where organization will see booking details of customer
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -149,6 +153,7 @@ class _OrgHomeState extends State<OrgHome> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0),
                 child: StreamBuilder<QuerySnapshot>(
+                    //displaying service category directly from database collection ServiceCategory in organization homepage
                     stream: Firestore.instance
                         .collection('ServiceCategory')
                         .snapshots(),

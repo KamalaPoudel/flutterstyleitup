@@ -5,24 +5,29 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/details.dart';
 
 class CommentPage extends StatefulWidget {
+  // comment class
   // List comments;
-  String collectionName;
-  String documentid;
+  String collectionName; // declaring variable
+  String documentid; // declaring variable
 
-  CommentPage({Key key, this.collectionName, this.documentid})
+  CommentPage(
+      {Key key,
+      this.collectionName,
+      this.documentid}) //parameter in constructor
       : super(key: key);
   @override
   _CommentPageState createState() => _CommentPageState();
 }
 
 class _CommentPageState extends State<CommentPage> {
-  List comment = [];
-  String userEmail;
-  String fullName;
+  List comment = []; // declaring comment as list variable
+  String userEmail; // declaring variable
+  String fullName; // declaring variable
 
   @override
   void initState() {
     FirebaseAuth.instance.currentUser().then((user) {
+      // storing comments in database with reference to current users
       setState(() {
         userEmail = user.email;
         print(userEmail);
@@ -34,6 +39,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   void getData() async {
+    // function to get the fullname data from users collection
     await Firestore.instance
         .collection('users')
         .document(userEmail)
@@ -47,6 +53,7 @@ class _CommentPageState extends State<CommentPage> {
   }
 
   void getComments() async {
+    // function to store comments in database
     var docref = Firestore.instance
         .collection(widget.collectionName)
         .document(widget.documentid);
@@ -154,6 +161,7 @@ class _CommentPageState extends State<CommentPage> {
                             .document(id1)
                             .updateData({
                           'comments': FieldValue.arrayUnion([
+                            // comments in the form of array
                             {
                               "comment": commentController.text,
                               "name": fullName,

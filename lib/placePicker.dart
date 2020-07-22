@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:style_it_up/orginfouploadpage.dart';
 
 class PlacePicker extends StatefulWidget {
+  //placepicker class for organization to select their location and set it in map
   final String userEmail;
   PlacePicker({this.userEmail});
   @override
@@ -29,6 +30,7 @@ class _PlacePickerState extends State<PlacePicker> {
   }
 
   void getLocation() async {
+    //selecting location in map
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -100,7 +102,8 @@ class _PlacePickerState extends State<PlacePicker> {
               } else {
                 print(Markers.first.position);
 
-                await Firestore.instance
+                await Firestore
+                    .instance //storing the organization location in users collection
                     .collection("users")
                     .document(widget.userEmail)
                     .updateData({

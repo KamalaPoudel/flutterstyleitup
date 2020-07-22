@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class SeeAppointments extends StatefulWidget {
+  //see appointment class for organization
   String yourFullName;
   String location;
   String contactNumber;
@@ -23,6 +24,7 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
           title: Text(" Appointments"),
         ),
         body: StreamBuilder<QuerySnapshot>(
+          //fetching customer booking details from database and displaying it in see appointment page screen
           stream: Firestore.instance.collection('CustomerBooking').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -150,6 +152,7 @@ class _SeeAppointmentsState extends State<SeeAppointments> {
                                       height: 25,
                                       child: RaisedButton(
                                         onPressed: () async {
+                                          //to selete the booking details by organization
                                           await Firestore.instance
                                               .collection('CustomerBooking')
                                               .document(document.documentID)

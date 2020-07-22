@@ -24,6 +24,7 @@ void main() =>
     runApp(MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()));
 
 class MyApp extends StatefulWidget {
+  // main class
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -67,24 +68,36 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: _getLandingPage(),
       routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => LoginScreen(),
-        '/registration': (BuildContext context) => RegisterScreen(),
-        '/Welcomepage': (BuildContext context) => Welcomepage(),
-        '/home': (BuildContext context) => CustomerHome(),
-        '/orghome': (BuildContext context) => OrgHome(),
-        '/hairinfo': (BuildContext context) => OrgUploadInfo(),
-        '/haircare': (BuildContext context) => HairCare(),
-        '/details': (BuildContext context) => Details(),
-        '/myBooking': (BuildContext context) => CustomerBooking(),
-        '/seeAppointments': (BuildContext context) => SeeAppointments(),
-        '/commentPage': (BuildContext context) => CommentPage(),
-        '/galleryPage': (BuildContext context) => Gallery(),
+        '/login': (BuildContext context) =>
+            LoginScreen(), //keyword to access login screen by main class
+        '/registration': (BuildContext context) =>
+            RegisterScreen(), //to access registration class
+        '/Welcomepage': (BuildContext context) =>
+            Welcomepage(), //access welcome page class
+        '/home': (BuildContext context) =>
+            CustomerHome(), //access customer home class
+        '/orghome': (BuildContext context) =>
+            OrgHome(), //access organization home class
+        '/hairinfo': (BuildContext context) =>
+            OrgUploadInfo(), //access organization information upload class
+        '/haircare': (BuildContext context) =>
+            HairCare(), //access hair care class
+        '/details': (BuildContext context) => Details(), //access details class
+        '/myBooking': (BuildContext context) =>
+            CustomerBooking(), //access customer booking class
+        '/seeAppointments': (BuildContext context) =>
+            SeeAppointments(), //access see appointments class
+        '/commentPage': (BuildContext context) =>
+            CommentPage(), //access commentpage class
+        '/galleryPage': (BuildContext context) =>
+            Gallery(), //access gallery class
         // '/placePicker': (BuildContext context) => PlacePicker(),
       },
     );
   }
 
   Widget _getLandingPage() {
+    //condition to get into customer home page if logged in userType is customer otherwise get into organization home page or else go to welcom page
     if (userEmail != null) {
       if (loggedInUserType == "customer") {
         return CustomerHome();

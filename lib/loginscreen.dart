@@ -8,12 +8,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/registerscreen.dart';
 
 class LoginScreen extends StatefulWidget {
+  //login class
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); //declaring key form form validation
   String email;
   String password;
   String userType;
@@ -37,12 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void validateAndSubmit() async {
+    //function to create users collection in database and store the login information after data is validated.
     if (_validateAndSave()) {
       setState(() {
         isLoading = true;
       });
       try {
-        FirebaseUser user = (await FirebaseAuth.instance
+        FirebaseUser user = (await FirebaseAuth
+                .instance //authenticating the users
                 .signInWithEmailAndPassword(
                     email: email.toLowerCase(), password: password))
             .user;
@@ -64,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         if (user.uid.length > 0 && user.uid != null) {
           if (userType == "customer") {
+            //checking whether the usertype is either customer or organization and setting the route accordingly
             Navigator.of(context).pushNamed('/home');
           } else {
             Navigator.of(context).pushNamed('/orghome');
@@ -96,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String validateEmail(String value) {
+    // email validation pattern
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern);
@@ -107,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //validator for password
   String validatePassword(String value) {
+    // password validation pattern
     if (value.length < 8)
       return 'Password must be 8 character long';
     else

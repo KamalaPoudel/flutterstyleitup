@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomerGallery extends StatefulWidget {
+  //customer gallery class
   @override
   _CustomerGalleryState createState() => _CustomerGalleryState();
 }
@@ -74,7 +75,9 @@ class _CustomerGalleryState extends State<CustomerGallery> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: StreamBuilder(
-              stream: Firestore.instance.collection('Gallery').snapshots(),
+              stream: Firestore.instance
+                  .collection('Gallery')
+                  .snapshots(), //fetching images from database collection Gallery and displaying it in customer gallery page
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
                   return LinearProgressIndicator(

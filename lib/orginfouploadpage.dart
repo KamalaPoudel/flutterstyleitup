@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class OrgUploadInfo extends StatefulWidget {
+  //organization information uploading page
   final GeoPoint location;
 
   String categoryId;
@@ -23,11 +24,13 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
   }
 
   Future<dynamic> referenceData(DocumentReference documentReference) async {
+    //taking organization document reference from database
     DocumentSnapshot reference = await documentReference.get();
     return reference.data;
   }
 
   Future<String> userData() async {
+    //identifying current user with email
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     final String email = user.email;
     this.setState(() {
@@ -63,15 +66,18 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
               children: <Widget>[
                 TextField(
                   controller: serviceName,
-                  decoration: InputDecoration(hintText: "Service Name"),
+                  decoration: InputDecoration(
+                      hintText: "Service Name"), //place to give service name
                 ),
                 TextField(
                   controller: price,
-                  decoration: InputDecoration(hintText: "Service Price"),
+                  decoration: InputDecoration(
+                      hintText: "Service Price"), //place to give service price
                 ),
                 TextField(
                   controller: estimatedTime,
-                  decoration: InputDecoration(hintText: "Service Time"),
+                  decoration: InputDecoration(
+                      hintText: "Service Time"), //place to give service time
                 ),
               ],
             ),
@@ -85,7 +91,8 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
               },
             ),
             FlatButton(
-              child: new Text("Upload"),
+              child: new Text(
+                  "Upload"), //store given information in service collection and with refrence storing in users subcollection service
               onPressed: () {
                 var uuid = Uuid();
                 String serviceId = uuid.v4();
@@ -139,32 +146,6 @@ class _OrgUploadInfoState extends State<OrgUploadInfo> {
                 }).catchError((onError) {
                   print(onError);
                 });
-
-                // Firestore.instance
-                //     .collection('users')
-                //     .document(userEmail)
-                //     .collection("services")
-                //     .document(widget.categoryId)
-                //     .get()
-                //     .then((value) {
-                //   Firestore.instance
-                //       .collection('users')
-                //       .document(userEmail)
-                //       .collection("services")
-                //       .document(widget.categoryId)
-                //       .updateData({
-                //     "serviceDoc": FieldValue.arrayUnion([serviceReference])
-                //   });
-                // }).catchError((onError) {
-                //   Firestore.instance
-                //       .collection('users')
-                //       .document(userEmail)
-                //       .collection("services")
-                //       .document(widget.categoryId)
-                //       .setData({
-                //     "serviceDoc": FieldValue.arrayUnion([serviceReference])
-                //   });
-                // });
 
                 Firestore.instance
                     .collection('services')

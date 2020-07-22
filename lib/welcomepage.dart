@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Welcomepage extends StatefulWidget {
+  //welcome page class
   @override
   _WelcomepageState createState() => _WelcomepageState();
 }
@@ -49,6 +50,7 @@ class _WelcomepageState extends State<Welcomepage> {
                       // padding:  EdgeInsets.fromLTRB(70.0, 20.0, 30.0, 20.0),
                       child: RaisedButton(
                         onPressed: () {
+                          //page route to go into login page
                           Navigator.of(context).pushNamed('/login');
                         },
                         child: Text("Login",

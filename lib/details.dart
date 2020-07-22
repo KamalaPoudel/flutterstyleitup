@@ -7,12 +7,14 @@ import 'package:style_it_up/haircare.dart';
 import 'comments.dart';
 
 class Details extends StatefulWidget {
-  String categoryId;
-  String documentid;
-  String collectionName;
-  List comments;
-  String orgEmail;
+  //Details class
+  String categoryId; //declaring variable to access category id
+  String documentid; //declaring variable to access document id
+  String collectionName; // declaring variable to access collection name
+  List comments; //declaring variabe to access comment page
+  String orgEmail; //declaring variable to access organization email
   Details(
+      //parameters in constructor
       {this.documentid,
       this.collectionName,
       this.comments,
@@ -55,6 +57,7 @@ class _DetailsState extends State<Details> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
+                      //setting route to go into the comment page
                       builder: (context) => CommentPage(
                             collectionName: widget.collectionName,
                             documentid: widget.documentid,
@@ -72,6 +75,7 @@ class _DetailsState extends State<Details> {
                   end: Alignment.bottomRight,
                   colors: [Colors.red[300], Colors.yellow])),
           child: StreamBuilder<QuerySnapshot>(
+              //streaming details from database stored in services collection by using reference of categoryId and OrgEmail
               stream: Firestore.instance
                   .collection('services')
                   .where("categoryId", isEqualTo: widget.categoryId)
@@ -104,7 +108,8 @@ class _DetailsState extends State<Details> {
                                         padding:
                                             const EdgeInsets.only(left: 5.0),
                                         child: Text(
-                                          document['serviceName'],
+                                          document[
+                                              'serviceName'], //fetching service name
                                           style: GoogleFonts.notoSans(
                                               fontSize: 24.0,
                                               color: Colors.black87),
@@ -116,6 +121,7 @@ class _DetailsState extends State<Details> {
                                         padding:
                                             const EdgeInsets.only(left: 5.0),
                                         child: Text(
+                                          //fetching estimated service time
                                           "Service Time" +
                                               ":" +
                                               " " +
@@ -147,6 +153,7 @@ class _DetailsState extends State<Details> {
                                       child: Container(
                                         height: 25,
                                         child: Text(
+                                          //fetching price per service
                                           "Price:" + " " + document['price'],
                                           style: TextStyle(fontSize: 18.0),
                                         ),
@@ -158,6 +165,7 @@ class _DetailsState extends State<Details> {
                                       child: Container(
                                         height: 40,
                                         child: RaisedButton(
+                                          //making route to reach customer booking page
                                           onPressed: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(

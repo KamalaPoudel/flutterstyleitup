@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class myProfile extends StatefulWidget {
+  //myprofile class to see the details of registered customers
   @override
   _myProfileState createState() => _myProfileState();
 }
@@ -18,6 +19,7 @@ class _myProfileState extends State<myProfile> {
   }
 
   Future<String> userData() async {
+    //identifying current user
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     final String email = user.email;
     this.setState(() {
@@ -77,7 +79,8 @@ class _myProfileState extends State<myProfile> {
                           padding:
                               const EdgeInsets.fromLTRB(15.0, 10.0, 0, 15.0),
                           child: Text(
-                            snapshot.data['fullName'],
+                            snapshot.data[
+                                'fullName'], //fetching fullname from users collection
                             style: GoogleFonts.notoSans(
                                 fontSize: 24.0, color: Colors.black),
                           ),
@@ -88,7 +91,8 @@ class _myProfileState extends State<myProfile> {
                           padding:
                               const EdgeInsets.fromLTRB(15.0, 5.0, 0, 15.0),
                           child: Text(
-                            snapshot.data['phoneNumber'],
+                            snapshot.data[
+                                'phoneNumber'], //fetching phonenumber from users collection
                             style: GoogleFonts.notoSans(
                                 fontSize: 24.0, color: Colors.black),
                           ),
@@ -99,7 +103,8 @@ class _myProfileState extends State<myProfile> {
                           padding:
                               const EdgeInsets.fromLTRB(15.0, 5.0, 0, 15.0),
                           child: Text(
-                            snapshot.data['address'],
+                            snapshot.data[
+                                'address'], //fetching address from users collection
                             style: GoogleFonts.notoSans(
                                 fontSize: 24.0, color: Colors.black),
                           ),
@@ -110,7 +115,8 @@ class _myProfileState extends State<myProfile> {
                           padding:
                               const EdgeInsets.fromLTRB(70.0, 15.0, 0, 15.0),
                           child: Text(
-                            snapshot.data['email'],
+                            snapshot.data[
+                                'email'], //fetching email from users collection
                             style: GoogleFonts.notoSans(
                                 fontSize: 24.0, color: Colors.black),
                           ),

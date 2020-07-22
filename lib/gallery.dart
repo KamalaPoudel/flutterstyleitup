@@ -6,19 +6,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class Gallery extends StatefulWidget {
+  //Gallery Class for organization
   @override
   _GalleryState createState() => _GalleryState();
 }
 
 class _GalleryState extends State<Gallery> {
-  List<Asset> images = List<Asset>();
-  List<String> imageUrls = <String>[];
+  List<Asset> images = List<Asset>(); //storing image in list
+  List<String> imageUrls = <String>[]; //storing image url in string format
   String _errorMessage;
   bool _isLoading = false;
   TextEditingController collectionName = TextEditingController();
   final databaseReference = Firestore.instance;
 
   Future<void> getImage() async {
+    //function to select images from device album
     List<Asset> resultList = List<Asset>();
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -37,6 +39,7 @@ class _GalleryState extends State<Gallery> {
   }
 
   void uploadImages() async {
+    //function to upload selected images in database collection name Gallery
     if (images.isNotEmpty && collectionName.text.isNotEmpty) {
       setState(() {
         _isLoading = true;
@@ -68,6 +71,7 @@ class _GalleryState extends State<Gallery> {
   }
 
   Future<dynamic> postImage(Asset imageFile) async {
+    //function to post images in gallery and store in firebase storage
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference reference =
         FirebaseStorage.instance.ref().child('Gallery').child(fileName);
@@ -165,7 +169,7 @@ class _GalleryState extends State<Gallery> {
                       onTap: () {
                         FocusScope.of(context).requestFocus(new FocusNode());
 
-                        uploadImages();
+                        uploadImages(); //calling function to upload image
                       },
                       child: Container(
                           height: 50,

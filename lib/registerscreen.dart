@@ -7,12 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:style_it_up/loginscreen.dart';
 
 class RegisterScreen extends StatefulWidget {
+  //registration class
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); //declaring key for form validation
   String email;
   String password;
   String group = "customer";
@@ -49,6 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = true;
       });
       try {
+        //creating users collection to store registration details if given data are validated
         FirebaseUser user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
                     email: email, password: password))
@@ -85,6 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   //  }
 
   String validatePhoneNumber(String value) {
+    //phonenumber validation pattern
     Pattern pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
@@ -96,6 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String validateEmail(String value) {
+    //email validation pattern
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern);
@@ -161,6 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: TextFormField(
                                       validator: (value) {
                                         if (value.isEmpty) {
+                                          //fullname validation
                                           return "Fullname can't be empty.";
                                         }
 
@@ -193,6 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: TextFormField(
                                       validator: (value) {
                                         if (value.isEmpty) {
+                                          //address validation
                                           return "Address can't be empty.";
                                         }
                                       },

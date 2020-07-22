@@ -8,6 +8,7 @@ import 'package:style_it_up/home.dart';
 import 'details.dart';
 
 class HairCare extends StatefulWidget {
+  //haircare class to show organization name and its location
   String categoryId;
   HairCare({this.categoryId});
   @override
@@ -29,6 +30,7 @@ class _HairCareState extends State<HairCare> {
   //save to another list
 
   void getOrganization() async {
+    // function to fetch organization name from users collection in database, if the userType is equal to organization
     print(widget.categoryId);
     await Firestore.instance
         .collection('users')
@@ -61,6 +63,7 @@ class _HairCareState extends State<HairCare> {
           automaticallyImplyLeading: false,
           leading: InkWell(
               onTap: () {
+                // route set to reach customer homepage
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CustomerHome()),
@@ -112,7 +115,8 @@ class _HairCareState extends State<HairCare> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: Text(
-                                  document['fullName'],
+                                  document[
+                                      'fullName'], //displaying organization name
                                   style: GoogleFonts.notoSans(
                                       fontSize: 24.0, color: Colors.black87),
                                 ),
@@ -122,6 +126,7 @@ class _HairCareState extends State<HairCare> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: Text(
+                                  //displaying organization address
                                   "Address" + ":" + " " + document['address'],
                                   style: GoogleFonts.notoSans(
                                       fontSize: 14.0, color: Colors.black87),
@@ -204,9 +209,10 @@ class _HairCareState extends State<HairCare> {
 }
 
 class saloonLocation extends StatefulWidget {
+  // saloon location class
   String email;
   String fullName;
-  saloonLocation({this.email, this.fullName});
+  saloonLocation({this.email, this.fullName}); //parameters in constructor
   @override
   _saloonLocationState createState() => _saloonLocationState();
 }
@@ -229,6 +235,7 @@ class _saloonLocationState extends State<saloonLocation> {
   }
 
   Future<LatLng> getLocation() async {
+    //function to fetch location of organization from users collection
     var docRef = Firestore.instance.collection("users").document(widget.email);
     docRef.get().then((doc) {
       setState(() {
@@ -246,6 +253,7 @@ class _saloonLocationState extends State<saloonLocation> {
   }
 
   searchAndNavigate() {
+    //function to help customer to search and navigate any address in map
     Geolocator().placemarkFromAddress(searchAddr).then((result) {
       _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:

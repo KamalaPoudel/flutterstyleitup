@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:style_it_up/details.dart';
 
 class CustomerBooking extends StatefulWidget {
+  // customerbooking class
   String serviceId;
   CustomerBooking({this.serviceId});
 
@@ -16,11 +17,11 @@ class CustomerBooking extends StatefulWidget {
 
 class _CustomerBookingState extends State<CustomerBooking> {
   //CalendarController _controller;
-  String fullName;
-  String formattedTimeOfDay;
-  String address;
-  String phoneNumber;
-  String userEmail;
+  String fullName; // declaring variable
+  String formattedTimeOfDay; // declaring variable
+  String address; //declaring variable
+  String phoneNumber; // declaring variable
+  String userEmail; // declaring variable
   @override
   void initState() {
     // TODO: implement initState
@@ -35,6 +36,7 @@ class _CustomerBookingState extends State<CustomerBooking> {
   }
 
   void getData() async {
+    // function to show fullname, address and phonenumber automatically in textfield by fetching from users collection by identifying current user using user email
     await Firestore.instance
         .collection('users')
         .document(userEmail)
@@ -49,13 +51,16 @@ class _CustomerBookingState extends State<CustomerBooking> {
   }
 
   void createCustomerBookingDb() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    // creating customer booking collection in database
+    final FirebaseAuth _auth =
+        FirebaseAuth.instance; // authenticating the current user
     final FirebaseUser user = await _auth.currentUser();
 
     if (_currentdate != null && _time != null) {
       DocumentReference serviceReference =
           Firestore.instance.document("services/" + widget.serviceId);
       Firestore.instance.collection('CustomerBooking').document().setData({
+        // storing booking details data in customer booking collection
         "userId": user.uid,
         'yourFullName': fullName,
         'location': address,
@@ -107,6 +112,7 @@ class _CustomerBookingState extends State<CustomerBooking> {
   TimeOfDay _time = new TimeOfDay.now();
 
   Future<Null> _selectdate(BuildContext context) async {
+    // _selectdate function to choose date by displaying calendar on the screen
     final DateTime _seldate = await showDatePicker(
         context: context,
         initialDate: _currentdate,
@@ -125,6 +131,7 @@ class _CustomerBookingState extends State<CustomerBooking> {
   }
 
   Future<Null> _selectTime(BuildContext context) async {
+    //function to select time of booking
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: _time);
 
