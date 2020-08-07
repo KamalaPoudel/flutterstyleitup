@@ -147,61 +147,63 @@ class _CommentPageState extends State<CommentPage> {
                   SizedBox(
                     width: 9,
                   ),
-                  RaisedButton(
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Text("Posts"),
+                  Expanded(
+                    child: RaisedButton(
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Text("Posts"),
+                      ),
+                      onPressed: () async {
+                        if (commentController.text.isEmpty) {
+                          print('Comment is empty');
+                        } else {
+                          await databaseReference
+                              .collection(widget.collectionName)
+                              .document(id1)
+                              .setData({
+                            'comments': FieldValue.arrayUnion([
+                              // comments in the form of array
+                              {
+                                "comment": commentController.text,
+                                "name": fullName,
+                              }
+                            ]),
+                          });
+                          commentController.clear();
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Comment successfull"),
+                                  content: Text("Thank You for Your Feedback!"),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("OKAY"),
+                                    ),
+                                  ],
+                                );
+                              });
+                          Navigator.of(context).pop();
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => CommentPage(
+                          //             collectionName: widget.collectionName,
+                          //             documentid: widget.documentid,
+                          //           )),
+                          // );
+
+                        }
+                      },
+                      color: Colors.blue[800],
+                      textColor: Colors.white,
+                      padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
+                      splashColor: Colors.grey,
                     ),
-                    onPressed: () async {
-                      if (commentController.text.isEmpty) {
-                        print('Comment is empty');
-                      } else {
-                        await databaseReference
-                            .collection(widget.collectionName)
-                            .document(id1)
-                            .updateData({
-                          'comments': FieldValue.arrayUnion([
-                            // comments in the form of array
-                            {
-                              "comment": commentController.text,
-                              "name": fullName,
-                            }
-                          ]),
-                        });
-                        commentController.clear();
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Comment successfull"),
-                                content: Text("Thank You for Your Feedback!"),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("OKAY"),
-                                  ),
-                                ],
-                              );
-                            });
-                        Navigator.of(context).pop();
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => CommentPage(
-                        //             collectionName: widget.collectionName,
-                        //             documentid: widget.documentid,
-                        //           )),
-                        // );
-
-                      }
-                    },
-                    color: Colors.blue[800],
-                    textColor: Colors.white,
-                    padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
-                    splashColor: Colors.grey,
                   )
                 ],
               ),
